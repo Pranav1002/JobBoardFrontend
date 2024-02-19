@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -56,12 +57,12 @@ const Header = () => {
           <div className="outer-box">
             {/* <!-- Login/Register --> */}
             <div className="btn-box">
-              <Link
+              {/* <Link
                 href="/employers-dashboard/post-jobs"
                 className="theme-btn btn-style-one"
               >
                 <span className="btn-title">Job Post</span>
-              </Link>
+              </Link> */}
             </div>
           </div>
           {/* End outer-box */}

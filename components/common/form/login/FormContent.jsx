@@ -112,14 +112,15 @@ const handleLogin = async (e) => {
       <div className="bottom-box">
         <div className="text">
           Don&apos;t have an account?{" "}
-          {/* <Link
+          <Link
             href="#"
             className="call-modal signup"
             data-bs-toggle="modal"
             data-bs-target="#registerModal"
-          > */}
+            // href="/register"
+          >
             Signup
-          {/* </Link> */}
+          </Link>
         </div>
 
         <div className="divider">

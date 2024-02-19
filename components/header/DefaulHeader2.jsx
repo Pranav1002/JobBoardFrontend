@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import HeaderNavContent from "./HeaderNavContent";
 import Image from "next/legacy/image";
+import index from "../pages-menu/login";
 
 const DefaulHeader2 = () => {
   const [navbar, setNavbar] = useState(false);
@@ -59,6 +60,8 @@ const DefaulHeader2 = () => {
           {/* <!-- Login/Register --> */}
           <div className="btn-box">
             <a
+              // href="/login"
+              // className="theme-btn btn-style-three call-modal"
               href="#"
               className="theme-btn btn-style-three call-modal"
               data-bs-toggle="modal"
@@ -80,3 +83,4 @@ const DefaulHeader2 = () => {
 };
 
 export default DefaulHeader2;
+
