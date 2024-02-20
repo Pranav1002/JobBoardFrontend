@@ -6,6 +6,8 @@ import Breadcrumb from "../../common/Breadcrumb";
 import FilterSidebar from "./FilterSidebar";
 import FilterJobBox from "./FilterJobBox";
 import CallToAction from "../../call-to-action/CallToAction";
+import DefaulHeader from "@/components/header/DefaulHeader";
+// import Hero3 from ".../hero/hero-3";
 
 const index = () => {
   return (
@@ -16,9 +18,10 @@ const index = () => {
       <LoginPopup />
       {/* End Login Popup Modal */}
 
-      <DefaulHeader2 />
+      <DefaulHeader />
       {/* End Header with upload cv btn */}
 
+      {/* <Hero3/>       */}
       <MobileMenu />
       {/* End MobileMenu */}
 

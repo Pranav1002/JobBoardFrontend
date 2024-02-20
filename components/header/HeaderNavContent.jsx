@@ -115,56 +115,7 @@ const HeaderNavContent = () => {
           </li>
           {/* End Candidates menu items */}
 
-          {/* <li
-            className={`${
-              isActiveParentChaild(pageItems, usePathname()) ||
-              isActiveParentChaild(shopItems[0].items, usePathname())
-                ? "current "
-                : ""
-            } dropdown`}
-          >
-            <span>Pages</span>
-            <ul>
-              {shopItems.map((item) => (
-                <li className="dropdown" key={item.id}>
-                  <span
-                    className={`${
-                      isActiveParentChaild(shopItems[0].items, usePathname())
-                        ? "current "
-                        : ""
-                    }`}
-                  >
-                    {item.title}
-                  </span>
-                  <ul>
-                    {item.items.map((menu, i) => (
-                      <li
-                        className={
-                          isActiveLink(menu.routePath, usePathname())
-                            ? "current"
-                            : ""
-                        }
-                        key={i}
-                      >
-                        <Link href={menu.routePath}>{menu.name}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-              {pageItems.map((item, i) => (
-                <li
-                  className={
-                    isActiveLink(item.routePath, usePathname()) ? "current" : ""
-                  }
-                  key={i}
-                >
-                  <Link href={item.routePath}>{item.name}</Link>
-                </li>
-              ))}
-            </ul>
-          </li> */}
-          {/* End Pages menu items */}
+          
         </ul>
       </nav>
     </>

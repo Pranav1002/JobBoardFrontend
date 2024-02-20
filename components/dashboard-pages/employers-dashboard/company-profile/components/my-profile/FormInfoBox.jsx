@@ -4,16 +4,7 @@
 import Select from "react-select";
 
 const FormInfoBox = () => {
-    const catOptions = [
-        { value: "Banking", label: "Banking" },
-        { value: "Digital & Creative", label: "Digital & Creative" },
-        { value: "Retail", label: "Retail" },
-        { value: "Human Resources", label: "Human Resources" },
-        { value: "Managemnet", label: "Managemnet" },
-        { value: "Accounting & Finance", label: "Accounting & Finance" },
-        { value: "Digital", label: "Digital" },
-        { value: "Creative Art", label: "Creative Art" },
-    ];
+  
 
     return (
         <form className="default-form">
@@ -82,28 +73,6 @@ const FormInfoBox = () => {
                         <option>200 - 250</option>
                         <option>300 - 350</option>
                         <option>500 - 1000</option>
-                    </select>
-                </div>
-
-                {/* <!-- Search Select --> */}
-                <div className="form-group col-lg-6 col-md-12">
-                    <label>Multiple Select boxes </label>
-                    <Select
-                        defaultValue={[catOptions[2]]}
-                        isMulti
-                        name="colors"
-                        options={catOptions}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                    />
-                </div>
-
-                {/* <!-- Input --> */}
-                <div className="form-group col-lg-6 col-md-12">
-                    <label>Allow In Search & Listing</label>
-                    <select className="chosen-single form-select">
-                        <option>Yes</option>
-                        <option>No</option>
                     </select>
                 </div>
 

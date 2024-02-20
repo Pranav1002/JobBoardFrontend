@@ -18,14 +18,14 @@ export default function Page() {
   }, []);
 
   // Render the appropriate content based on whether a user is present in local storage
-  if (user && user.user.authorities[0].roleId === 2) {
+  if (user && user.user.authorities[0].roleId === 1) {
     return (
       <Wrapper>
         <Index />
       </Wrapper>
     );
   }
-  else if (user && user.user.authorities[0].roleId === 3) {
+  else if (user && user.user.authorities[0].roleId === 2) {
     return (
       <Wrapper>
         <Index2/>

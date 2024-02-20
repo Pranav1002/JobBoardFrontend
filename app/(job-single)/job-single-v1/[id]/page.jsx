@@ -14,10 +14,6 @@ import JobDetailsDescriptions from "@/components/job-single-pages/shared-compone
 import ApplyJobModalContent from "@/components/job-single-pages/shared-components/ApplyJobModalContent";
 import Image from "next/legacy/image";
 
-export const metadata = {
-  title: "Job Single Dyanmic V1 || Superio - Job Borad React NextJS Template",
-  description: "Superio - Job Borad React NextJS Template",
-};
 
 const JobSingleDynamicV1 = ({ params }) => {
   const id = params.id;

@@ -13,6 +13,7 @@ const FormContent = () => {
 const [username , setUsername] = useState('');
 const [password,setPassword] = useState('');
 const [link,setLink] = useState('');
+const [rem,setRem] = useState(false);
 
 
 const handleLogin = async (e) => {
@@ -31,18 +32,21 @@ const handleLogin = async (e) => {
     if (response.ok) {
       const data = await response.json();
       console.log('Login successful:', data);
+      if(rem){
       if (typeof window !== 'undefined') {
         localStorage.setItem('user', JSON.stringify(data));
       }
       localStorage.setItem('user', JSON.stringify(data));
-      if(data.user.authorities[0].roleId == '2' ){
+    }
+      if(data.user.authorities[0].roleId == '1' ){
         //console.log("job seeker ");
         window.location.href='candidates-dashboard/dashboard';
       } 
-      else if(data.user.authorities[0].roleId == '3' ){
+      else if(data.user.authorities[0].roleId == '2' ){
         //console.log("Employers");
         window.location.href='employers-dashboard/dashboard';
       }
+    
     } else {
       console.error('Login failed');
     }
@@ -82,7 +86,7 @@ const handleLogin = async (e) => {
         <div className="form-group">
           <div className="field-outer">
             <div className="input-group checkboxes square">
-              <input type="checkbox" name="remember-me" id="remember" />
+              <input type="checkbox" name="remember-me" id="remember" value={rem} onChange={(e) => setRem(e.target.checked)} />
               <label htmlFor="remember" className="remember">
                 <span className="custom-checkbox"></span> Remember me
               </label>

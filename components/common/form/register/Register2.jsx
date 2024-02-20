@@ -16,7 +16,7 @@ const Register2 = () => {
           <TabList className="btn-box row">
             <Tab className="col-lg-6 col-md-12">
               <button className="theme-btn btn-style-four">
-                <i className="la la-user"></i> Candidate
+                <i className="la la-user"></i> Job Seeker
               </button>
             </Tab>
 
