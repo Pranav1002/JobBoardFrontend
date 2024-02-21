@@ -5,21 +5,14 @@ import { useState } from "react";
 const FormContent2 = (props) => {
   const [username , setUsername] = useState('');
   const [password,setPassword] = useState('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState(props.type.value == "js" ? ('JOB_SEEKER') :  ('COMPANY') );
 
   const handleRegister = async (e) => {
     e.preventDefault();
     
     try {
       const apiUrl = 'http://localhost:8181/api/v1/auth/register'; 
-      if(props.type.value == "js"){
-        setRole('JOB_SEEKER');
-        console.log(role);
-      }
-      else{
-        setRole('COMPANY');
-        console.log(role);
-      }
+      
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
