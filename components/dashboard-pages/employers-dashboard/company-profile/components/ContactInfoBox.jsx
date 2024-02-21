@@ -1,34 +1,57 @@
-import Map from "../../../Map";
+"use client"
+
+import React, { useState } from "react";
+import { Country, City } from "country-state-city";
 
 const ContactInfoBox = () => {
+    const [selectedCountry, setSelectedCountry] = useState("");
+    const [cities, setCities] = useState([]);
+
+    const handleCountryChange = (event) => {
+        const countryValue = event.target.value;
+        setSelectedCountry(countryValue);
+
+        console.error = () => {};
+        console.warn = () => {};
+
+        // Get cities based on the selected country
+        const countryCities = City.getCitiesOfCountry(countryValue);
+        setCities(countryCities);
+    };
+
     return (
         <form className="default-form">
             <div className="row">
-                {/* <!-- Input --> */}
+                {/* Country Selection */}
                 <div className="form-group col-lg-6 col-md-12">
                     <label>Country</label>
-                    <select className="chosen-single form-select" required>
-                        <option>Australia</option>
-                        <option>Pakistan</option>
-                        <option>Chaina</option>
-                        <option>Japan</option>
-                        <option>India</option>
+                    <select
+                        className="chosen-single form-select"
+                        required
+                        value={selectedCountry}
+                        onChange={handleCountryChange}
+                    >
+                        {Country.getAllCountries().map((country) => (
+                            <option key={country.isoCode} value={country.isoCode}>
+                                {country.name}
+                            </option>
+                        ))}
                     </select>
                 </div>
 
-                {/* <!-- Input --> */}
+                {/* City Selection */}
                 <div className="form-group col-lg-6 col-md-12">
                     <label>City</label>
                     <select className="chosen-single form-select" required>
-                        <option>Melbourne</option>
-                        <option>Pakistan</option>
-                        <option>Chaina</option>
-                        <option>Japan</option>
-                        <option>India</option>
+                        {cities.map((city) => (
+                            <option key={city.name} value={city.name}>
+                                {city.name}
+                            </option>
+                        ))}
                     </select>
                 </div>
 
-                {/* <!-- Input --> */}
+                {/* Complete Address Input */}
                 <div className="form-group col-lg-12 col-md-12">
                     <label>Complete Address</label>
                     <input
@@ -39,8 +62,7 @@ const ContactInfoBox = () => {
                     />
                 </div>
 
-                
-                {/* <!-- Input --> */}
+                {/* Save Button */}
                 <div className="form-group col-lg-12 col-md-12">
                     <button type="submit" className="theme-btn btn-style-one">
                         Save

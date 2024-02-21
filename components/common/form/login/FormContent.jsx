@@ -6,6 +6,7 @@ import Link from "next/link";
 import LoginWithSocial from "./LoginWithSocial";
 import React , { useState } from "react";
 import { Navigate, Redirect, Route, Routes } from "react-router-dom";
+import { api } from "@/data/api";
 // import { Link } from "react-router-dom";
 // import {useNavigate} from "react-router-dom";
 
@@ -19,7 +20,8 @@ const [rem,setRem] = useState(false);
 const handleLogin = async (e) => {
   e.preventDefault();
   try {
-    const apiUrl = 'http://localhost:8181/api/v1/auth/login'; // Replace with your API endpoint
+    const apiUrl = api + 'auth/login'; 
+    
 
     const response = await fetch(apiUrl, {
       method: 'POST',

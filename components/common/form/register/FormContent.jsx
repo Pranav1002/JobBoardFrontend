@@ -1,5 +1,6 @@
 "use client"
 
+import { api } from "@/data/api";
 import { useState } from "react";
 
 const FormContent2 = (props) => {
@@ -11,7 +12,8 @@ const FormContent2 = (props) => {
     e.preventDefault();
     
     try {
-      const apiUrl = 'http://localhost:8181/api/v1/auth/register'; 
+      const apiUrl = api+ 'auth/register';
+      
       if(props.type.value == "js"){
         setRole('JOB_SEEKER');
         console.log(role);
