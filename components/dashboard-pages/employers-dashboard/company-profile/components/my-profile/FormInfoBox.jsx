@@ -1,86 +1,95 @@
 
-'use client'
-
+"use client"
 import { api } from "@/data/api";
 import { useState } from "react";
-import Select from "react-select";
+
 
 const FormInfoBox = () => {
-  
+
     const info = {
         email: '',
         phoneNumber: '',
         name: '',
         website: '',
         establish: '',
-       
+
         description: ''
     }
     let id = 0;
+    let jw ='';
 
-    const [information,setInformation] = useState(info);
+    const [information, setInformation] = useState(info);
 
-    const [teamSize,setTeamSize] = useState('');
+    const [teamSize, setTeamSize] = useState('');
 
     const handleChange2 = event => {
         setTeamSize(event.target.value);
-      };
+    };
 
     const handleChange = (e) => {
-        const {name,value} = e.target;
+        const { name, value } = e.target;
         setInformation({
             ...information,
-            [name]:value,
+            [name]: value,
         })
     }
 
-    
+
 
     const handleClick = async (e) => {
         e.preventDefault();
         console.log(information);
         console.log(teamSize);
-        
-        
+
+
         try {
             const userString = localStorage.getItem('user');
 
-        if (userString) {
-            const user = JSON.parse(userString);
-            id = user.user.userId;
-            
-        } else {
-            console.error("User data not found");
-        }
-            const apiUrl = api + 'company/update/' + id; 
-            
-            console.log(apiUrl);
-        
-            const response = await fetch(apiUrl, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ information,teamSize }),
-            });
-        
-            if (response.ok) {
-              const data = await response.json();
-              console.log('Data saved successfully:', data);
-              if(rem){
-              if (typeof window !== 'undefined') {
-                localStorage.setItem('info', JSON.stringify(data));
-              }
-              localStorage.setItem('info', JSON.stringify(data));
-            }
-              
-            
+            if (userString) {
+                const user = JSON.parse(userString);
+                id = user.user.userId;
+                jw = user.jwt;
+
             } else {
-              console.error('Data saving failed');
+                console.error("User data not found");
             }
-          } catch (error) {
+            const apiUrl = api + 'company/update/' + id;
+
+            console.log(apiUrl);
+
+            const email = information.email;
+            const phoneNumber = information.phoneNumber;
+            const name= information.name;
+            const website = information.website;
+            const establish = information.establish;
+            const description = information.description;          
+
+            const response = await fetch(apiUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jw}`,
+                },
+                body: JSON.stringify({ email,phoneNumber,name,website,establish,description, teamSize }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Data saved successfully:', data);
+                if (rem) {
+                    if (typeof window !== 'undefined') {
+                        localStorage.setItem('info', JSON.stringify(data));
+                    }
+                    localStorage.setItem('info', JSON.stringify(data));
+                }
+
+
+            } else {
+                console.error('Data saving failed');
+            }
+        } catch (error) {
             console.error('Error:', error);
-          }
+        }
 
     }
 

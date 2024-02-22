@@ -53,6 +53,7 @@ const handleLogin = async (e) => {
       console.error('Login failed');
     }
   } catch (error) {
+    
     console.error('Error during login:', error);
   }
 };

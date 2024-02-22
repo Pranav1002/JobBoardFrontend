@@ -12,7 +12,7 @@ const FormContent2 = (props) => {
     e.preventDefault();
     
     try {
-<<<<<<< HEAD
+
       const apiUrl = api+ 'auth/register';
       
       if(props.type.value == "js"){
@@ -23,10 +23,9 @@ const FormContent2 = (props) => {
         setRole('COMPANY');
         console.log(role);
       }
-=======
-      const apiUrl = 'http://localhost:8181/api/v1/auth/register'; 
+
+  
       
->>>>>>> 46191e9f573834aae08f7950ca6b45c4bda3a759
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
