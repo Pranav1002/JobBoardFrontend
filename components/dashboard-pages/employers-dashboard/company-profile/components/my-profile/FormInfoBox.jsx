@@ -1,10 +1,12 @@
 
 "use client"
 import { api } from "@/data/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const FormInfoBox = () => {
+
+    const [isEditMode, setIsEditMode] = useState(true);
 
     const info = {
         email: '',
@@ -76,13 +78,13 @@ const FormInfoBox = () => {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Data saved successfully:', data);
-                if (rem) {
+                
                     if (typeof window !== 'undefined') {
                         localStorage.setItem('info', JSON.stringify(data));
                     }
                     localStorage.setItem('info', JSON.stringify(data));
-                }
-
+                
+                setIsEditMode(false); 
 
             } else {
                 console.error('Data saving failed');
@@ -92,6 +94,13 @@ const FormInfoBox = () => {
         }
 
     }
+
+    const handleEditClick = () => {
+        setIsEditMode(true); // Switch to edit mode
+        
+    };
+
+
 
     return (
         <form className="default-form">
@@ -106,6 +115,7 @@ const FormInfoBox = () => {
                         value={information.name}
                         onChange={handleChange}
                         required
+                        disabled={!isEditMode}
                     />
                 </div>
 
@@ -119,6 +129,7 @@ const FormInfoBox = () => {
                         value={information.email}
                         onChange={handleChange}
                         required
+                        disabled={!isEditMode}
                     />
                 </div>
 
@@ -132,6 +143,7 @@ const FormInfoBox = () => {
                         value={information.phoneNumber}
                         onChange={handleChange}
                         required
+                        disabled={!isEditMode}
                     />
                 </div>
 
@@ -145,6 +157,7 @@ const FormInfoBox = () => {
                         value={information.website}
                         onChange={handleChange}
                         required
+                        disabled={!isEditMode}
                     />
                 </div>
 
@@ -158,13 +171,14 @@ const FormInfoBox = () => {
                         value={information.establish}
                         onChange={handleChange}
                         required
+                        disabled={!isEditMode}
                     />
                 </div>
 
                 {/* <!-- Input --> */}
                 <div className="form-group col-lg-6 col-md-12">
                     <label>Team Size</label>
-                    <select className="chosen-single form-select" value={information.teamSize} onChange={handleChange2} required>
+                    <select className="chosen-single form-select" disabled={!isEditMode} value={information.teamSize} onChange={handleChange2} required>
                         <option value="50-100">50 - 100</option>
                         <option value="100-150">100 - 150</option>
                         <option value="200-250">200 - 250</option>
@@ -176,12 +190,20 @@ const FormInfoBox = () => {
                 {/* <!-- About Company --> */}
                 <div className="form-group col-lg-12 col-md-12">
                     <label>About Company</label>
-                    <textarea name="description" value={information.description} onChange={handleChange} placeholder="Spent several years working on sheep on Wall Street. Had moderate success investing in Yugo's on Wall Street. Managed a small team buying and selling Pogo sticks for farmers. Spent several years licensing licorice in West Palm Beach, FL. Developed several new methods for working it banjos in the aftermarket. Spent a weekend importing banjos in West Palm Beach, FL.In this position, the Software Engineer collaborates with Evention's Development team to continuously enhance our current software solutions as well as create new solutions to eliminate the back-office operations and management challenges present"></textarea>
+                    <textarea name="description" disabled={!isEditMode} value={information.description} onChange={handleChange} placeholder="Spent several years working on sheep on Wall Street. Had moderate success investing in Yugo's on Wall Street. Managed a small team buying and selling Pogo sticks for farmers. Spent several years licensing licorice in West Palm Beach, FL. Developed several new methods for working it banjos in the aftermarket. Spent a weekend importing banjos in West Palm Beach, FL.In this position, the Software Engineer collaborates with Evention's Development team to continuously enhance our current software solutions as well as create new solutions to eliminate the back-office operations and management challenges present"></textarea>
                 </div>
 
                 {/* <!-- Input --> */}
                 <div className="form-group col-lg-6 col-md-12">
-                    <button className="theme-btn btn-style-one" onClick={handleClick}>Save</button>
+                    {isEditMode ? (
+                        <button className="theme-btn btn-style-one" onClick={handleClick}>
+                            Save
+                        </button>
+                    ) : (
+                        <button className="theme-btn btn-style-one" onClick={handleEditClick}>
+                            Edit
+                        </button>
+                    )}
                 </div>
             </div>
         </form>
