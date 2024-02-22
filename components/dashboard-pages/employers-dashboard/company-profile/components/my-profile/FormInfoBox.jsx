@@ -36,16 +36,7 @@ const FormInfoBox = () => {
         })
     }
 
-
-
-    const handleClick = async (e) => {
-        e.preventDefault();
-        console.log(information);
-        console.log(teamSize);
-
-
-        try {
-            const userString = localStorage.getItem('user');
+    const userString = localStorage.getItem('user');
 
             if (userString) {
                 const user = JSON.parse(userString);
@@ -55,6 +46,15 @@ const FormInfoBox = () => {
             } else {
                 console.error("User data not found");
             }
+
+    const handleClick = async (e) => {
+        e.preventDefault();
+        // console.log(information);
+        // console.log(teamSize);
+
+
+        try {
+            
             const apiUrl = api + 'company/update/' + id;
 
             console.log(apiUrl);
@@ -95,12 +95,97 @@ const FormInfoBox = () => {
 
     }
 
-    const handleEditClick = () => {
+    const handleEditClick =  async (e) => {
+        e.preventDefault();
         setIsEditMode(true); // Switch to edit mode
+        try{
+                    const info1 = localStorage.getItem('info');
+                    const parsedInfo = JSON.parse(info1);
+                    const id = parsedInfo.companyId;
+                    const apiUrl1 = api+"company/get/" + id;
+                    
+                    const response = await fetch(apiUrl1, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${jw}`,
+                        },
+                       
+                    });
+        
+                    if (response.ok) {
+                        const data = await response.json();
+                        
+                        setInformation({
+                            email: data.email,
+                            phoneNumber: data.phoneNumber,
+                            name: data.name,
+                            website: data.website,
+                            establish: data.establish,
+                            description: data.description
+                        
+                        });
+                        setTeamSize(data.teamSize)
+                        
+        
+                    } else {
+                       console.log("Error fetching data:")
+                    }
+        
+                }
+                catch(error){
+                    console.error('Error:', error);
+                }
         
     };
 
+    
 
+    useEffect(() => {
+        const getData = async () => {
+            try{
+                const info1 = localStorage.getItem('info');
+                const parsedInfo = JSON.parse(info1);
+                const id = parsedInfo.companyId;
+                const apiUrl1 = api+"company/get/" + id;
+                
+                const response = await fetch(apiUrl1, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jw}`,
+                    },
+                   
+                });
+    
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    setInformation({
+                        email: data.email,
+                        phoneNumber: data.phoneNumber,
+                        name: data.name,
+                        website: data.website,
+                        establish: data.establish,
+                        description: data.description
+                    
+                    });
+                    setTeamSize(data.teamSize)
+                    
+    
+                } else {
+                   console.log("Error fetching data:")
+                }
+    
+            }
+            catch(error){
+                console.error('Error:', error);
+            }
+        }
+        
+        getData();
+        setIsEditMode(false);
+    },[]);    
 
     return (
         <form className="default-form">
@@ -200,7 +285,7 @@ const FormInfoBox = () => {
                             Save
                         </button>
                     ) : (
-                        <button className="theme-btn btn-style-one" onClick={handleEditClick}>
+                        <button className="btn btn-outline-primary btn-lg" onClick={handleEditClick}>
                             Edit
                         </button>
                     )}
