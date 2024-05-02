@@ -7,6 +7,9 @@ import FoundationDate from "../components/FoundationDate";
 import SearchBox from "../components/SearchBox";
 
 const FilterSidebar = () => {
+    
+
+
     return (
         <div className="inner-column pd-right">
             <div className="filters-outer">

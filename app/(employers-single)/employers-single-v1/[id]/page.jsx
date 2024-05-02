@@ -12,7 +12,9 @@ import Social from "@/components/employer-single-pages/social/Social";
 import Image from "next/legacy/image";
 import DefaulHeader1 from "@/components/header/HeaderNavContent1";
 import DefaulHeader4 from "@/components/header/DefaultHeader4";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { api } from "@/data/api";
+
 
 
 const EmployersSingleV1 = ({ params }) => {
@@ -20,7 +22,66 @@ const EmployersSingleV1 = ({ params }) => {
   const user1 = localStorage.getItem('user');
   const user = JSON.parse(user1);
 
-    let jw =user.jwt;
+  const jw=user.jwt;
+
+  
+  const [jobData,setJobData] = useState({
+    jobTitle: '',
+    country: '',
+    salary:'',
+    company:'',
+    image: '',
+    phoneNumber: ''
+  })
+
+  const id1=user.user.userId;
+  
+  useEffect(() => {
+
+    const getData = async () => {
+      try {
+        const info1 = localStorage.getItem('info');
+        const parsedInfo = JSON.parse(info1);
+        // const id = parsedInfo.companyId;
+        const user = JSON.parse(user1);
+        let apiUrl1 = ''
+        if(user.user.authorities[0].roleId === 2)
+        {
+          apiUrl1 = api + "jobseeker/job/" + id;
+        }else{
+         apiUrl1 = api + "company/get/" + id;
+        }
+  
+        const response = await fetch(apiUrl1, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jw}`,
+            },
+        });
+  
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log(responseData)
+            const {jobTitle,country, salary, phoneNumber} = responseData;
+            const company = responseData.company.name;
+            const image = responseData.company.image.filePath;
+            setJobData({jobTitle,country,salary, company,image, phoneNumber});
+        } else {
+            console.log("Error fetching data:");
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    getData();
+  },[]);
+
+  useEffect(() => {
+    console.log(jobData);
+  }, [jobData]);
+
 
     const [showToast, setShowToast] = useState(false);
 
@@ -64,12 +125,12 @@ const EmployersSingleV1 = ({ params }) => {
                       alt="logo"
                     />
                   </span>
-                  <h4>{employer?.name}</h4>
+                  <h4>{jobData.name}</h4>
 
                   <ul className="job-info">
                     <li>
                       <span className="icon flaticon-map-locator"></span>
-                      {employer?.location}
+                      {jobData.country}
                     </li>
                     {/* compnay info */}
                     <li>
@@ -79,7 +140,7 @@ const EmployersSingleV1 = ({ params }) => {
                     {/* location info */}
                     <li>
                       <span className="icon flaticon-telephone-1"></span>
-                      {employer?.phone}
+                      {jobData.phoneNumber}
                     </li>
                     {/* time info */}
                     <li>

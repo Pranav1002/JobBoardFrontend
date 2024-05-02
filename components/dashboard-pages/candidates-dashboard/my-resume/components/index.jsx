@@ -24,26 +24,9 @@ const index = () => {
           {/* <!-- Resume / Education --> */}
 
           <Experiences />
-          {/* <!-- Resume / Work & Experience --> */}
         </div>
-        {/* <!--  education and word-experiences --> */}
 
 
-        
-        
-
-        {/* <div className="form-group col-lg-6 col-md-12">
-          <label>Skills </label>
-          <SkillsMultiple />
-        </div> */}
-        {/* <!-- Multi Selectbox --> */}
-
-        {/* <div className="form-group col-lg-12 col-md-12">
-          <button type="submit" className="theme-btn btn-style-one">
-            Save
-          </button>
-        </div> */}
-        {/* <!-- Input --> */}
       </div>
       {/* End .row */}
     </form>

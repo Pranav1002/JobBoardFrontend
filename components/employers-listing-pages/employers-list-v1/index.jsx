@@ -9,10 +9,13 @@ import FilterTopBox from "./FilterTopBox";
 import FilterSidebar from "./FilterSidebar";
 import DefaulHeader1 from "@/components/header/HeaderNavContent1";
 import DefaulHeader from "@/components/header/DefaulHeader";
+import DefaulHeader4 from "@/components/header/DefaultHeader4";
 
 const index = () => {
 
-  const user = localStorage.getItem('user');
+  const user1 = localStorage.getItem('user');
+  const user = JSON.parse(user1)
+
   return (
     <>
       {/* <!-- Header Span --> */}
@@ -21,7 +24,8 @@ const index = () => {
       <LoginPopup />
       {/* End Login Popup Modal */}
 
-      {user && <DefaulHeader1/>}
+      {user.user.authorities[0].roleId === 2 && <DefaulHeader1/>}
+      {user.user.authorities[0].roleId === 3 && <DefaulHeader4/>}
       {!user && <DefaulHeader/>}
       {/* End Header with upload cv btn */}
 

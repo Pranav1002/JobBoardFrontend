@@ -131,15 +131,15 @@ const JobListingsTable = () => {
                               width={50}
                               height={49}
                               // src={'/' + path}
-                              src="/images/clients/1-2.png"
-                              // src={item.company.image.filePath}
+                              // src="/images/clients/1-2.png"
+                              src={item.company.image.filePath}
                               
                               alt="logo"
                              
                             />
                           </span>
                           <h4>
-                            <Link href={`/job-single-v3/${item.id}`}>
+                            <Link href={`/job-single-v3/${item.companyId}`}>
                               {item.jobTitle}
                             </Link>
                           </h4>

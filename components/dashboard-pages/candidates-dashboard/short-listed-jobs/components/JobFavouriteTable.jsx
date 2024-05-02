@@ -6,8 +6,8 @@ import Image from "next/image.js";
 import { useEffect, useState } from "react";
 import { api } from "@/data/api.js";
 
-const JobFavouriteTable = () => {
 
+const JobListingsTable = () => {
 
   const [data, setData] = useState([]);
 
@@ -25,7 +25,7 @@ const JobFavouriteTable = () => {
       const info1 = localStorage.getItem('info');
       const parsedInfo = JSON.parse(info1);
       const id = parsedInfo.jsId;   
-      const apiUrl1 = api + "jobseeker/" +id + "/get/shortlisted-jobs";
+      const apiUrl1 = api + "jobseeker/" +id + "/get/applied-jobs";
 
       const response = await fetch(apiUrl1, {
           method: 'GET',
@@ -84,11 +84,13 @@ const JobFavouriteTable = () => {
     }
   }
 
+
   return (
     <div className="tabs-box">
       <div className="widget-title">
-        <h4>My Favorite Jobs</h4>
+        <h4>My Applied Jobs</h4>
 
+        
       </div>
       {/* End filter top bar */}
 
@@ -100,7 +102,7 @@ const JobFavouriteTable = () => {
               <thead>
                 <tr>
                   <th>Job Title</th>
-                  <th>Date Applied</th>
+                  
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
@@ -116,9 +118,10 @@ const JobFavouriteTable = () => {
                           <div className="content">
                             <span className="company-logo">
                               <Image
-                                width={48}
-                                height={48}
-                                src="/images/clients/1-2.png"
+                                width={50}
+                                height={49}
+                                // src="/images/clients/1-2.png"
+                                src={item.company.image.filePath}
                                 alt="logo"
                               />
                             </span>
@@ -141,7 +144,7 @@ const JobFavouriteTable = () => {
                         </div>
                       </div>
                     </td>
-                    <td>Dec 5, 2020</td>
+                   
                     <td className="status">Active</td>
                     <td>
                       <div className="option-box">
@@ -171,4 +174,4 @@ const JobFavouriteTable = () => {
   );
 };
 
-export default JobFavouriteTable;
+export default JobListingsTable;

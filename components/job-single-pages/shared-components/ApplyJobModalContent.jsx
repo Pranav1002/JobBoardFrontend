@@ -4,16 +4,17 @@ import { api } from "@/data/api";
 import Link from "next/link";
 import { useState } from "react";
 
-const ApplyJobModalContent = ({id}) => {
+const ApplyJobModalContent = ({id,jwt}) => {
 
   const user1 = localStorage.getItem('user');
   const user = JSON.parse(user1);
-  const jw=user.user.jwt;
+  const jw=user.jwt;
 
   const [showToast,setShowToast] = useState(false)
   const id1 = id;
   console.log(id);
   const handleApply = async (e) => {
+    e.preventDefault();
     const info1 = localStorage.getItem('info');
     const parsedInfo = JSON.parse(info1);
     const id1 = parsedInfo.jsId;
@@ -44,38 +45,7 @@ const ApplyJobModalContent = ({id}) => {
   return (
     <form className="default-form job-apply-form">
       <div className="row">
-        <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-          <div className="uploading-outer apply-cv-outer">
-            <div className="uploadButton">
-              <input
-                className="uploadButton-input"
-                type="file"
-                name="attachments[]"
-                accept="image/*, application/pdf"
-                id="upload"
-                multiple=""
-                required
-              />
-              <label
-                className="uploadButton-button ripple-effect"
-                htmlFor="upload"
-              >
-                Upload CV (doc, docx, pdf)
-              </label>
-            </div>
-          </div>
-        </div>
-        {/* End .col */}
-
-        <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-          <textarea
-            className="darma"
-            name="message"
-            placeholder="Message"
-            required
-          ></textarea>
-        </div>
-        {/* End .col */}
+        
 
         <div className="col-lg-12 col-md-12 col-sm-12 form-group">
           <div className="input-group checkboxes square">

@@ -16,8 +16,57 @@ import {
   addSort,
 } from "../../../features/filter/employerFilterSlice";
 import Image from "next/legacy/image";
+import { api } from "@/data/api";
+import { useEffect, useState } from "react";
 
 const FilterTopBox = () => {
+
+  const user1 = localStorage.getItem('user');
+  const user = JSON.parse(user1);
+  const jw=user.jwt;
+  // const user = 'Hello'
+  const [show,setShow] = useState(true)
+
+  const [jobData,setJobData] = useState([])
+
+  useEffect(() => {
+
+    const getData = async () => {
+      try {
+        const info1 = localStorage.getItem('info');
+        const parsedInfo = JSON.parse(info1);
+        // const id = parsedInfo.companyId;
+        const user = JSON.parse(user1);
+        const apiUrl1 =  api + "jobseeker/get/companies";
+        
+  
+        const response = await fetch(apiUrl1, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jw}`,
+            },
+        });
+  
+        if (response.ok) {
+            const responseData = await response.json();
+            // console.log(responseData)
+            setJobData(responseData)
+        } else {
+            console.log("Error fetching data:");
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    getData();
+  },[]);
+
+  useEffect(() => {
+    console.log(jobData);
+  }, [jobData]);
+
   const {
     keyword,
     location,
@@ -99,11 +148,11 @@ const FilterTopBox = () => {
               </ul>
             </div>
 
-            <ul className="job-other-info">
+            {/* <ul className="job-other-info">
               {company.isFeatured ? <li className="privacy">Featured</li> : ""}
 
               <li className="time">Open Jobs – {company.jobNumber}</li>
-            </ul>
+            </ul> */}
           </div>
 
           <div className="text">{company.jobDetails}</div>
@@ -223,6 +272,62 @@ const FilterTopBox = () => {
         </div>
       </div>
       {/* End top filter bar box */}
+
+      {jobData.map((item) => (
+        <div className="company-block-three" key={item.companyId}>
+        <div className="inner-box">
+          <div className="content">
+            <div className="content-inner">
+              <span className="company-logo">
+              {item.image && item.companyImage.filePath ? (
+  <Image
+    width={90}
+    height={90}
+    src={item.companyImage.filePath} 
+    alt="candidates"
+  />
+) : (
+  <Image
+            width={90}
+            height={90}
+            // src={item.image.filePath} 
+            src="/logo3.svg"
+            alt="candidates"
+          />
+)}
+              </span>
+              <h4>
+                <Link href={`/employers-single-v1/${item.companyId}`}>
+                  {item.name}
+                </Link>
+              </h4>
+              <ul className="job-info">
+                <li>
+                  <span className="icon flaticon-map-locator"></span>{" "}
+                  {companyData[0].location}
+                </li>
+                <li>
+                  <span className="icon flaticon-briefcase"></span>{" "}
+                  {companyData[0].jobType}
+                </li>
+              </ul>
+            </div>
+
+            {/* <ul className="job-other-info">
+              {companyData[0].isFeatured ? <li className="privacy">Featured</li> : ""}
+
+              <li className="time">Open Jobs – {companyData[0].jobNumber}</li>
+            </ul> */}
+          </div>
+
+          <div className="text">{jobData.description}</div>
+
+          <button className="bookmark-btn">
+            <span className="flaticon-bookmark"></span>
+          </button>
+        </div>
+      </div>
+      ))}
 
       {content}
 

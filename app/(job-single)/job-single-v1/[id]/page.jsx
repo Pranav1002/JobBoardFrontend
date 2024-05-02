@@ -17,7 +17,8 @@ import ApplyJobModalContent from "@/components/job-single-pages/shared-component
 import Image from "next/legacy/image";
 import DefaulHeader1 from "@/components/header/HeaderNavContent1";
 import DefaulHeader4 from "@/components/header/DefaultHeader4";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { api } from "@/data/api";
 
 
 
@@ -27,16 +28,72 @@ const JobSingleDynamicV1 = ({ params }) => {
 
   const user1 = localStorage.getItem('user');
   const user = JSON.parse(user1);
+  const jw=user.jwt;
 
   const [showToast, setShowToast] = useState(false);
   
+  const [jobData,setJobData] = useState({
+    jobTitle: '',
+    country: '',
+    salary:'',
+    company:'',
+    image: ''
+  })
 
   const handleClick = () => {
-    setShowToast(true)
+    setShowToast(true)  
+
   }
 
   const id1=user.user.userId;
   
+  useEffect(() => {
+
+    const getData = async () => {
+      try {
+        const info1 = localStorage.getItem('info');
+        const parsedInfo = JSON.parse(info1);
+        // const id = parsedInfo.companyId;
+        const user = JSON.parse(user1);
+        let apiUrl1 = ''
+        if(user.user.authorities[0].roleId === 2)
+        {
+          apiUrl1 = api + "jobseeker/job/" + id;
+        }else{
+         apiUrl1 = api + "company/job/" + id;
+        }
+  
+        const response = await fetch(apiUrl1, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jw}`,
+            },
+        });
+  
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log(responseData)
+            const {jobTitle,country, salary} = responseData;
+            const company = responseData.company.name;
+            const image = responseData.company.image.filePath;
+            setJobData({jobTitle,country,salary, company,image});
+        } else {
+            console.log("Error fetching data:");
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    getData();
+  },[]);
+
+  useEffect(() => {
+    console.log(jobData);
+  }, [jobData]);
+
+
 
   
 
@@ -67,16 +124,16 @@ const JobSingleDynamicV1 = ({ params }) => {
                     <Image
                       width={100}
                       height={98}
-                      src={company?.logo}
+                      src={jobData.image}
                       alt="logo"
                     />
                   </span>
-                  <h4>{company?.jobTitle}</h4>
+                  <h4>{jobData.jobTitle}</h4>
 
                   <ul className="job-info">
                     <li>
                       <span className="icon flaticon-briefcase"></span>
-                      {company?.company}
+                      {jobData.company}
                     </li>
                     {/* compnay info */}
                     <li>
@@ -84,11 +141,6 @@ const JobSingleDynamicV1 = ({ params }) => {
                       {company?.location}
                     </li>
                     {/* location info */}
-                    <li>
-                      <span className="icon flaticon-clock-3"></span>{" "}
-                      {company?.time}
-                    </li>
-                    {/* time info */}
                     <li>
                       <span className="icon flaticon-money"></span>{" "}
                       {company?.salary}
@@ -161,7 +213,7 @@ const JobSingleDynamicV1 = ({ params }) => {
           <div className="auto-container">
             <div className="row">
               <div className="content-column col-lg-8 col-md-12 col-sm-12">
-                <JobDetailsDescriptions />
+                <JobDetailsDescriptions id={id} />
                 {/* End jobdetails content */}
 
                 <div className="other-options">
@@ -192,7 +244,7 @@ const JobSingleDynamicV1 = ({ params }) => {
                   <div className="sidebar-widget">
                     {/* <!-- Job Overview --> */}
                     <h4 className="widget-title">Job Overview</h4>
-                    <JobOverView />
+                    <JobOverView id={id}/>
 
                     {/* <!-- Map Widget --> */}
                     <br/>
@@ -223,7 +275,7 @@ const JobSingleDynamicV1 = ({ params }) => {
                       </div>
                       {/* End company title */}
 
-                      <CompnayInfo />
+                      <CompnayInfo id={id} />
 
                       <div className="btn-box">
                         <a

@@ -1,15 +1,72 @@
-const JobDetailsDescriptions = () => {
+"use client"
+
+import { api } from "@/data/api";
+import { useEffect, useState } from "react";
+
+
+const JobDetailsDescriptions = ({id}) => {
+
+  
+  const userString = localStorage.getItem('user');
+  let jw='';
+  if (userString) {
+    const user = JSON.parse(userString);
+    jw = user.jwt;
+  } else {
+    console.error("User data not found");
+  }
+
+  const [jobDescription,setJobDescription] = useState("")
+
+  useEffect(() => {
+
+    const getData = async () => {
+      try {
+        const info1 = localStorage.getItem('info');
+        const parsedInfo = JSON.parse(info1);
+        // const id = parsedInfo.companyId;
+        const user = JSON.parse(userString);
+        let apiUrl1 = ''
+        if(user.user.authorities[0].roleId === 2)
+        {
+          apiUrl1 = api + "jobseeker/job/" + id;
+        }else{
+         apiUrl1 = api + "company/job/" + id;
+        }
+        // console.log(apiUrl1)
+        const response = await fetch(apiUrl1, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jw}`,
+            },
+        });
+  
+        if (response.ok) {
+            const responseData = await response.json();
+            // console.log("Res",responseData);
+            const {jobDescription} = responseData;
+            setJobDescription(jobDescription)
+        } else {
+            console.log("Error fetching data:");
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    getData();
+  },[]);
+
+  useEffect(() => {
+    console.log(jobDescription);
+  }, [jobDescription]);
+
   return (
     <div className="job-detail">
       <h4>Job Description</h4>
       <p>
-        As a Product Designer, you will work within a Product Delivery Team
-        fused with UX, engineering, product and data talent. You will help the
-        team design beautiful interfaces that solve business challenges for our
-        clients. We work with a number of Tier 1 banks on building web-based
-        applications for AML, KYC and Sanctions List management workflows. This
-        role is ideal if you are looking to segue your career into the FinTech
-        or Big Data arenas.
+        {jobDescription}
       </p>
       <h4>Key Responsibilities</h4>
       <ul className="list-style-three">

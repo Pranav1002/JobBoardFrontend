@@ -15,8 +15,11 @@ import AboutVideo from "@/components/candidates-single-pages/shared-components/A
 import Image from "next/legacy/image";
 import DefaulHeader1 from "@/components/header/HeaderNavContent1";
 import DefaulHeader4 from "@/components/header/DefaultHeader4";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "@/data/api";
+import Education from "@/components/dashboard-pages/candidates-dashboard/my-resume/components/Education";
+import Experience from "@/components/candidates-listing-pages/components/Experience";
+import Experiences from "@/components/dashboard-pages/candidates-dashboard/my-resume/components/Experiences";
 
 
 
@@ -26,6 +29,56 @@ const CandidateSingleDynamicV2 = ({ params }) => {
 
   const user1 = localStorage.getItem('user');
   const user = JSON.parse(user1);
+
+  const jw=user.jwt;
+
+  
+  const [jobData,setJobData] = useState({})
+
+  const id1=user.user.userId;
+  
+  useEffect(() => {
+
+    const getData = async () => {
+      try {
+        const info1 = localStorage.getItem('info');
+        const parsedInfo = JSON.parse(info1);
+        // const id = parsedInfo.companyId;
+        const user = JSON.parse(user1);
+        let apiUrl1 = ''
+        if(user.user.authorities[0].roleId === 2)
+        {
+          apiUrl1 = api + "jobseeker/get/" + id1;
+        }else{
+         apiUrl1 = api + "company/get/jobseeker/" + id;
+        }
+  
+        const response = await fetch(apiUrl1, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jw}`,
+            },
+        });
+  
+        if (response.ok) {
+            const responseData = await response.json();
+            // console.log(responseData)
+            setJobData(responseData);
+        } else {
+            console.log("Error fetching data:");
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    getData();
+  },[]);
+
+  useEffect(() => {
+    console.log(jobData);
+  }, [jobData]);
 
   const [showToast, setShowToast] = useState(false);
 
@@ -63,18 +116,20 @@ const CandidateSingleDynamicV2 = ({ params }) => {
                           width={100}
                           height={100}
                           src={candidate?.avatar}
+                          // src={jobData.image.filePath}
                           alt="avatar"
                         />
                       </figure>
-                      <h4 className="name">{candidate?.name}</h4>
+                      <h4 className="name">{jobData.name}</h4>
 
                       <ul className="candidate-info">
                         <li className="designation">
-                          {candidate?.designation}
+                          {jobData.jobTitle}
                         </li>
                         <li>
                           <span className="icon flaticon-map-locator"></span>
-                          {candidate?.location}
+                          {!jobData.country && "Australia"}
+                          {jobData.country}
                         </li>
                         <li>
                           <span className="icon flaticon-money"></span> $
@@ -97,67 +152,33 @@ const CandidateSingleDynamicV2 = ({ params }) => {
                 {/*  <!-- Candidate block Five --> */}
 
                 <div className="job-detail">
-                  <p>
-                    Hello my name is Nicole Wells and web developer from
-                    Portland. In pharetra orci dignissim, blandit mi semper,
-                    ultricies diam. Suspendisse malesuada suscipit nunc non
-                    volutpat. Sed porta nulla id orci laoreet tempor non
-                    consequat enim. Sed vitae aliquam velit. Aliquam ante erat,
-                    blandit at pretium et, accumsan ac est. Integer vehicula
-                    rhoncus molestie. Morbi ornare ipsum sed sem condimentum, et
-                    pulvinar tortor luctus. Suspendisse condimentum lorem ut
-                    elementum aliquam.
-                  </p>
-                  <p>
-                    Mauris nec erat ut libero vulputate pulvinar. Aliquam ante
-                    erat, blandit at pretium et, accumsan ac est. Integer
-                    vehicula rhoncus molestie. Morbi ornare ipsum sed sem
-                    condimentum, et pulvinar tortor luctus. Suspendisse
-                    condimentum lorem ut elementum aliquam. Mauris nec erat ut
-                    libero vulputate pulvinar.
-                  </p>
+                 {jobData.description}
 
                   
 
                   {/* <!-- Candidate Resume Start --> */}
-                  {candidateResume.map((resume) => (
-                    <div
-                      className={`resume-outer ${resume.themeColor}`}
-                      key={resume.id}
-                    >
-                      <div className="upper-title">
-                        <h4>{resume?.title}</h4>
-                      </div>
+                  <form className="default-form">
+      <div className="row">
+        
+        {/* <!-- Input --> */}
 
-                      {/* <!-- Start Resume BLock --> */}
-                      {resume?.blockList?.map((item) => (
-                        <div className="resume-block" key={item.id}>
-                          <div className="inner">
-                            <span className="name">{item.meta}</span>
-                            <div className="title-box">
-                              <div className="info-box">
-                                <h3>{item.name}</h3>
-                                <span>{item.industry}</span>
-                              </div>
-                              <div className="edit-box">
-                                <span className="year">{item.year}</span>
-                              </div>
-                            </div>
-                            <div className="text">{item.text}</div>
-                          </div>
-                        </div>
-                      ))}
+        <div className="form-group col-lg-12 col-md-12">
+          <Education />
+          {/* <!-- Resume / Education --> */}
 
-                      {/* <!-- End Resume BLock --> */}
-                    </div>
-                  ))}
+          <Experiences />
+        </div>
+
+      </div>
+      {/* End .row */}
+    </form>
                   {/* <!-- Candidate Resume End --> */}
 
-                  <div className="portfolio-outer">
+                  {/* <div className="portfolio-outer">
                     <div className="row">
                       <GalleryBox />
                     </div>
-                  </div>
+                  </div> */}
                   {/* <!-- Portfolio --> */}
                 </div>
                 {/* End job-details */}
@@ -185,43 +206,46 @@ const CandidateSingleDynamicV2 = ({ params }) => {
                         <li>
                           <i className="icon icon-calendar"></i>
                           <h5>Experience:</h5>
-                          <span>0-2 Years</span>
+                          <span>{jobData.experience} Years</span>
                         </li>
 
                         <li>
                           <i className="icon icon-expiry"></i>
                           <h5>Age:</h5>
-                          <span>28-33 Years</span>
+                          <span>{jobData.age} Years</span>
                         </li>
 
                         <li>
                           <i className="icon icon-rate"></i>
                           <h5>Current Salary:</h5>
-                          <span>11K - 15K</span>
+                          <span>{jobData.currentSalary}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-salary"></i>
                           <h5>Expected Salary:</h5>
-                          <span>26K - 30K</span>
+                          <span>{jobData.expectedSalary}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-user-2"></i>
                           <h5>Gender:</h5>
-                          <span>Female</span>
+                          <span>{jobData.gender}
+                          {!jobData.gender && "Male"}
+                          
+                          </span>
                         </li>
 
                         <li>
                           <i className="icon icon-language"></i>
                           <h5>Language:</h5>
-                          <span>English, German, Spanish</span>
+                          <span>{jobData.languages}</span>
                         </li>
 
                         <li>
                           <i className="icon icon-degree"></i>
                           <h5>Education Level:</h5>
-                          <span>Master Degree</span>
+                          <span>{jobData.educationLevel}</span>
                         </li>
                       </ul>
                     </div>
@@ -285,7 +309,7 @@ const CandidateSingleDynamicV2 = ({ params }) => {
     ></button>
   </div>
   <div className="toast-body">
-    Job saved successfully.
+    Candidate Shortlisted Successfully.
   </div>
 </div>
 

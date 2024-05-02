@@ -10,13 +10,57 @@ import FilterJobBox from "./FilterJobBox";
 import CallToAction from "../../call-to-action/CallToAction";
 import DefaulHeader from "@/components/header/DefaulHeader";
 import DefaulHeader1 from "@/components/header/HeaderNavContent1";
-import { use } from "react";
+import { useEffect, useState } from "react";
+import { api } from "@/data/api";
+import DefaulHeader4 from "@/components/header/DefaultHeader4";
 // import Hero3 from ".../hero/hero-3";
 
 const index = () => {
 
-  const user = localStorage.getItem('user');
+  const user1 = localStorage.getItem('user');
+  const user = JSON.parse(user1);
+  const jw=user.jwt;
   // const user = 'Hello'
+
+  const [jobData,setJobData] = useState([])
+
+  useEffect(() => {
+
+    const getData = async () => {
+      try {
+        const info1 = localStorage.getItem('info');
+        const parsedInfo = JSON.parse(info1);
+        // const id = parsedInfo.companyId;
+        const user = JSON.parse(user1);
+        const apiUrl1 =  api + "jobseeker/get/jobs";
+        
+  
+        const response = await fetch(apiUrl1, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jw}`,
+            },
+        });
+  
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log(responseData)
+            setJobData(responseData)
+        } else {
+            console.log("Error fetching data:");
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    getData();
+  },[]);
+
+  useEffect(() => {
+    // console.log(jobData);
+  }, [jobData]);
 
   return (
     <>
@@ -26,7 +70,8 @@ const index = () => {
       <LoginPopup />
       {/* End Login Popup Modal */}
 
-      {user && <DefaulHeader1/>}
+      {user.user.authorities[0].roleId === 2 && <DefaulHeader1/>}
+      {user.user.authorities[0].roleId === 3 && <DefaulHeader4/>}
       {!user && <DefaulHeader/>}
       {/* End Header with upload cv btn */}
 

@@ -5,6 +5,9 @@ import DefaulHeader2 from "../../header/DefaulHeader2";
 import MobileMenu from "../../header/MobileMenu";
 import FilterTopBox from "./FilterTopBox";
 import FilterSidebar from "./FilterSidebar";
+import DefaulHeader from "@/components/header/DefaulHeader";
+import DefaulHeader1 from "@/components/header/HeaderNavContent1";
+import DefaulHeader4 from "@/components/header/DefaultHeader4";
 
 const Index = () => {
     return (
@@ -15,7 +18,9 @@ const Index = () => {
             <LoginPopup />
             {/* End Login Popup Modal */}
 
-            <DefaulHeader2 />
+            {user.user.authorities[0].roleId === 2 && <DefaulHeader1/>}
+      {user.user.authorities[0].roleId === 3 && <DefaulHeader4/>}
+      {!user && <DefaulHeader/>}
             {/* End Header with upload cv btn */}
 
             <MobileMenu />

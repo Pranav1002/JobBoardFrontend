@@ -24,6 +24,9 @@ import {
   clearQualification,
 } from "../../../features/candidate/candidateSlice";
 import Image from "next/legacy/image";
+import { useEffect, useState } from "react";
+import { api } from "@/data/api";
+import { iterate } from "localforage";
 
 const FilterTopBox = () => {
   const {
@@ -40,6 +43,50 @@ const FilterTopBox = () => {
   } = useSelector((state) => state.candidateFilter) || {};
 
   const dispatch = useDispatch();
+
+  const user1 = localStorage.getItem('user');
+  const user = JSON.parse(user1);
+  const jw=user.jwt;
+
+  const [jobData,setJobData] = useState([])
+
+  useEffect(() => {
+
+    const getData = async () => {
+      try {
+        const info1 = localStorage.getItem('info');
+        const parsedInfo = JSON.parse(info1);
+        // const id = parsedInfo.companyId;
+        const user = JSON.parse(user1);
+        const apiUrl1 =  api + "company/get/jobseekers";
+        
+  
+        const response = await fetch(apiUrl1, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jw}`,
+            },
+        });
+  
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log(responseData)
+            setJobData(responseData)
+        } else {
+            console.log("Error fetching data:");
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    getData();
+  },[]);
+
+  useEffect(() => {
+    console.log(jobData);
+  }, [jobData]);
 
   // keyword filter
   const keywordFilter = (item) =>
@@ -125,7 +172,7 @@ const FilterTopBox = () => {
               />
             </figure>
             <h4 className="name">
-              <Link href={`/candidates-single-v2/${candidate.id}`}>
+              <Link href={`/candidates-single-v1/${candidate.id}`}>
                 {candidate.name}
               </Link>
             </h4>
@@ -160,7 +207,7 @@ const FilterTopBox = () => {
             {/* End bookmark-btn */}
 
             <Link
-              href={`/candidates-single-v1/${candidate.id}`}
+              href={`/candidates-single-v2/${candidate.id}`}
               className="theme-btn btn-style-three"
             >
               <span className="btn-title">View Profile</span>
@@ -296,6 +343,78 @@ const FilterTopBox = () => {
         </div>
       </div>
       {/* End top filter bar box */}
+
+      {jobData.map((item) => (
+  <div className="candidate-block-three" key={item.jsId}>
+    <div className="inner-box">
+      <div className="content">
+        <figure className="image">
+        {item.image && item.image.filePath ? (
+  <Image
+    width={90}
+    height={90}
+    src={item.image.filePath} 
+    alt="candidates"
+  />
+) : (
+  <Image
+            width={90}
+            height={90}
+            // src={item.image.filePath} 
+            src="/logo3.svg"
+            alt="candidates"
+          />
+)}
+
+          
+        </figure>
+        <h4 className="name">
+          <Link href={`/candidates-single-v2/${item.jsId}`}>
+            {item.name}
+          </Link>
+        </h4>
+
+        <ul className="candidate-info">
+          <li className="designation">{item.jobTitle}</li>
+          <li>
+            <span className="icon flaticon-map-locator"></span>{" "}
+            {item.country ? item.country : "Australia"}
+          </li>
+          <li>
+            <span className="icon flaticon-money"></span> $
+            {candidatesData[0].hourlyRate} / hour
+          </li>
+        </ul>
+        {/* End candidate-info */}
+
+        <ul className="post-tags">
+          {candidatesData[0].tags.map((val, i) => (
+            <li key={i}>
+              <a href="#">{val}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      {/* End content */}
+
+      <div className="btn-box">
+        <button className="bookmark-btn me-2">
+          <span className="flaticon-bookmark"></span>
+        </button>
+        {/* End bookmark-btn */}
+
+        <Link
+          href={`/candidates-single-v2/${item.jsId}`}
+          className="theme-btn btn-style-three"
+        >
+          <span className="btn-title">View Profile</span>
+        </Link>
+      </div>
+      {/* End btn-box */}
+    </div>
+  </div>
+))}
+
 
       {content}
 

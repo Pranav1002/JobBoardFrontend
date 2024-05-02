@@ -120,8 +120,8 @@ const JobListingsTable = () => {
                               <Image
                                 width={50}
                                 height={49}
-                                src="/images/clients/1-2.png"
-                                // src={item.company.image.filePath}
+                                // src="/images/clients/1-2.png"
+                                src={item.company.image.filePath}
                                 alt="logo"
                               />
                             </span>

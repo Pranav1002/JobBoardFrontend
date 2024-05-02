@@ -38,6 +38,7 @@ const PostBoxForm = () => {
             }
     
             const handleClick = async (e) => {
+              e.preventDefault();
               
       
               try {

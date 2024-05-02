@@ -51,7 +51,7 @@ const index = () => {
                 <div className="tabs-box">
                   <div className="widget-title">
                     <h4>Applicant</h4>
-                    <WidgetTopFilterBox />
+                    {/* <WidgetTopFilterBox /> */}
                   </div>
                   {/* End top widget filter bar */}
 
