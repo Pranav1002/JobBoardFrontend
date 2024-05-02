@@ -93,7 +93,7 @@ if (!userString) {
       {/* <!-- Dashboard --> */}
       <section className="user-dashboard">
         <div className="dashboard-outer">
-          <BreadCrumb title="Howdy, Jerome!!" />
+          <BreadCrumb title="Welcome Back!!" />
           {/* breadCrumb */}
 
           <MenuToggler />

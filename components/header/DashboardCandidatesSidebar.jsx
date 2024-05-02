@@ -72,10 +72,7 @@ const handleDelete = async () => {
         console.error('Error:', error);
     }
 }
-if (!userString) {
-  // If user is not logged in, render nothing
-  return null;
-}
+
   return (
     <div className={`user-sidebar ${menu ? "sidebar_open" : ""}`}>
       {/* Start sidebar close icon */}
