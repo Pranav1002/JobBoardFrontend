@@ -25,6 +25,8 @@ const DashboardEmployerSidebar = () => {
     const handleLogout = () => {
         setShowToast(true)
         localStorage.removeItem("user");
+        localStorage.removeItem("info");
+        window.history.pushState({}, '', '/');
     }
 
     const userString = localStorage.getItem('user');

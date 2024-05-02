@@ -27,6 +27,8 @@ const DashboardCandidatesSidebar = () => {
     const handleLogout = () => {
         setShowToast(true)
         localStorage.removeItem("user");
+        localStorage.removeItem("info");
+        window.history.pushState({}, '', '/');
     }
 
 const userString = localStorage.getItem('user');
@@ -70,8 +72,10 @@ const handleDelete = async () => {
         console.error('Error:', error);
     }
 }
-
-
+if (!userString) {
+  // If user is not logged in, render nothing
+  return null;
+}
   return (
     <div className={`user-sidebar ${menu ? "sidebar_open" : ""}`}>
       {/* Start sidebar close icon */}
@@ -146,6 +150,7 @@ const handleDelete = async () => {
 
     </div>
   );
+
 };
 
 export default DashboardCandidatesSidebar;

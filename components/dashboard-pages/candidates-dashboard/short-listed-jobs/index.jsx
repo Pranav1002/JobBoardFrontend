@@ -8,6 +8,12 @@ import DashboardCandidatesHeader from "../../../header/DashboardCandidatesHeader
 import MenuToggler from "../../MenuToggler";
 
 const index = () => {
+
+  if (!userString) {
+    // If user is not logged in, render nothing
+    window.location.href = '/404'
+  }
+  
   return (
     <div className="page-wrapper dashboard">
       <span className="header-span"></span>
