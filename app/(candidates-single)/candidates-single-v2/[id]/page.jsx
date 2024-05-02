@@ -15,6 +15,9 @@ import AboutVideo from "@/components/candidates-single-pages/shared-components/A
 import Image from "next/legacy/image";
 import DefaulHeader1 from "@/components/header/HeaderNavContent1";
 import DefaulHeader4 from "@/components/header/DefaultHeader4";
+import { useState } from "react";
+import { api } from "@/data/api";
+
 
 
 const CandidateSingleDynamicV2 = ({ params }) => {

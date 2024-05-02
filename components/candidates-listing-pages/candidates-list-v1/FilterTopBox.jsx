@@ -125,7 +125,7 @@ const FilterTopBox = () => {
               />
             </figure>
             <h4 className="name">
-              <Link href={`/candidates-single-v1/${candidate.id}`}>
+              <Link href={`/candidates-single-v2/${candidate.id}`}>
                 {candidate.name}
               </Link>
             </h4>
