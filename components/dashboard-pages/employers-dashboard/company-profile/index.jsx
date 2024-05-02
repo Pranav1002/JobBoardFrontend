@@ -10,6 +10,7 @@ import CopyrightFooter from "../../CopyrightFooter";
 import MenuToggler from "../../MenuToggler";
 
 const index = () => {
+    const userString = localStorage.getItem("user");
     if (!userString) {
         // If user is not logged in, render nothing
         window.location.href = '/404'
