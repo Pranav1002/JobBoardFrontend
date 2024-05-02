@@ -15,7 +15,7 @@ module.exports = [
   },
   {
     id: 3,
-    name: "My Education",
+    name: "My Details",
     icon: "la la-file-invoice",
     routePath: "/candidates-dashboard/my-resume",
     active: "",
