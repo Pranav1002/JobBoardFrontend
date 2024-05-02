@@ -62,8 +62,8 @@ const Education = () => {
     try {
       const info1 = localStorage.getItem('info');
       const parsedInfo = JSON.parse(info1);
-      const id1 = parsedInfo.companyId;
-      const apiUrl1 = api + "jobseeker/education/delete/" + id;
+      const id1 = parsedInfo.jsId;
+      const apiUrl1 = api + "jobseeker/education/delete/" + id1;
 
       const response = await fetch(apiUrl1, {
           method: 'DELETE',
