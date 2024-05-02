@@ -63,7 +63,7 @@ const Education = () => {
       const info1 = localStorage.getItem('info');
       const parsedInfo = JSON.parse(info1);
       const id1 = parsedInfo.jsId;
-      const apiUrl1 = api + "jobseeker/education/delete/" + id1;
+      const apiUrl1 = api + "jobseeker/education/delete/edu/" + id1;
 
       const response = await fetch(apiUrl1, {
           method: 'DELETE',
@@ -84,6 +84,7 @@ const Education = () => {
     }
   }
 
+console.log("Data:",data)
  
 
 
@@ -117,7 +118,7 @@ const Education = () => {
                   <button>
                     <span className="la la-pencil"></span>
                   </button>
-                  <button onClick={(e) => {handleClick1(e,candidate.eduId)}}>
+                  <button onClick={(e) => {handleClick1(e,education.eduId)}}>
                     <span className="la la-trash"></span>
                   </button>
                 </div>

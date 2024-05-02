@@ -62,7 +62,7 @@ const Experiences = () => {
       const info1 = localStorage.getItem('info');
       const parsedInfo = JSON.parse(info1);
       const id1 = parsedInfo.companyId;
-      const apiUrl1 = api + "jobseeker/experience/delete/" + id;
+      const apiUrl1 = api + "jobseeker/experience/delete/exp/" + id;
 
       const response = await fetch(apiUrl1, {
           method: 'DELETE',
