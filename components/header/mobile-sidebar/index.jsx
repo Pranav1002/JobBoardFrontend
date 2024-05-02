@@ -19,9 +19,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 
 const Index = () => {
-
-  const router = useRouter()
-
+  const router = useRouter();
 
   return (
     <div
@@ -31,43 +29,22 @@ const Index = () => {
       data-bs-scroll="true"
     >
       <SidebarHeader />
-      {/* End pro-header */}
 
-      
-        <Sidebar>
-          <Menu>
-            {mobileMenuData.map((item) => (
-              <SubMenu
-                className={
-                  isActiveParentChaild(item.items, usePathname())
-                    ? "menu-active"
-                    : ""
-                }
-                label={item.label}
-                key={item.id}
-              >
-                {item.items.map((menuItem, i) => (
-                  <MenuItem
+      <Sidebar>
+        <Menu>
+          {mobileMenuData.map((item) => (
+            <MenuItem
+              className={isActiveLink(item.routePath, router.pathname) ? "menu-active-link" : ""}
+              key={item.id}
+              onClick={() => router.push(item.routePath)}
+            >
+              {item.name}
+            </MenuItem>
+          ))}
+        </Menu>
+      </Sidebar>
 
-                  onClick={()=>router.push(menuItem.routePath)}
-                    className={
-                      isActiveLink(menuItem.routePath, usePathname())
-                        ? "menu-active-link"
-                        : ""
-                    }
-                    key={i}
-                    // routerLink={<Link href={menuItem.routePath} />}
-                  >
-                    {menuItem.name}
-                  </MenuItem>
-                ))}
-              </SubMenu>
-            ))}
-          </Menu>
-        </Sidebar>
-
-
-      <SidebarFooter />
+      {/* <SidebarFooter /> */}
     </div>
   );
 };

@@ -58,7 +58,7 @@ const Register = () => {
         <div className="divider">
           <span>or</span>
         </div>
-        <LoginWithSocial />
+        {/* <LoginWithSocial /> */}
       </div>
       {/* End bottom-box LoginWithSocial */}
     </div>

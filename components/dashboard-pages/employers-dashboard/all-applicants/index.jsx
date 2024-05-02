@@ -7,6 +7,7 @@ import CopyrightFooter from "../../CopyrightFooter";
 import WidgetContentBox from "./components/WidgetContentBox";
 import WidgetTopFilterBox from "./components/WidgetTopFilterBox";
 import MenuToggler from "../../MenuToggler";
+import Applicants from "./components/Applicants";
 
 const index = () => {
   return (
@@ -46,6 +47,7 @@ const index = () => {
                   </div>
                   {/* End top widget filter bar */}
 
+                  {/* <Applicants/> */}
                   <WidgetContentBox />
                   {/* End widget-content */}
                 </div>

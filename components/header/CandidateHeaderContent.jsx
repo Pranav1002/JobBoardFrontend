@@ -27,6 +27,7 @@ const HeaderNavContent = () => {
               isActiveParent(homeItems, usePathname()) ? "current" : ""
             } `}
           >
+            {/* <span>Home</span> */}
             <Link href="/">Home</Link>
           </li>
           {/* End homepage menu items */}
@@ -36,7 +37,8 @@ const HeaderNavContent = () => {
               isActiveParent(homeItems, usePathname()) ? "current" : ""
             } `}
           >
-            <Link href="/job-list-v4">Job Lists</Link>
+            {/* <span>Home</span> */}
+            <Link href="/job-list-v4">Job List</Link>
           </li>
 
           <li
@@ -44,9 +46,13 @@ const HeaderNavContent = () => {
               isActiveParent(homeItems, usePathname()) ? "current" : ""
             } `}
           >
-            <Link href="/employers-list-v1">Company Lists</Link>
+            {/* <span>Home</span> */}
+            <Link href="/employers-list-v1">Employers List</Link>
           </li>
 
+
+
+          
         </ul>
       </nav>
     </>

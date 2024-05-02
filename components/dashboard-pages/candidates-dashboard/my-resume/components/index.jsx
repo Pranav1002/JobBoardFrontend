@@ -16,12 +16,7 @@ const index = () => {
   return (
     <form className="default-form" onClick={handleSubmit}>
       <div className="row">
-        <div className="form-group col-lg-6 col-md-12">
-          <label>Select Your CV</label>
-          <select className="chosen-single form-select">
-            <option>My CV</option>
-          </select>
-        </div>
+        
         {/* <!-- Input --> */}
 
         <div className="form-group col-lg-12 col-md-12">
@@ -34,23 +29,20 @@ const index = () => {
         {/* <!--  education and word-experiences --> */}
 
 
-        <div className="form-group col-lg-12 col-md-12">
-          {/* <!-- Resume / Awards --> */}
-          <Awards />
-        </div>
-        {/* <!-- End Award --> */}
+        
+        
 
-        <div className="form-group col-lg-6 col-md-12">
+        {/* <div className="form-group col-lg-6 col-md-12">
           <label>Skills </label>
           <SkillsMultiple />
-        </div>
+        </div> */}
         {/* <!-- Multi Selectbox --> */}
 
-        <div className="form-group col-lg-12 col-md-12">
+        {/* <div className="form-group col-lg-12 col-md-12">
           <button type="submit" className="theme-btn btn-style-one">
             Save
           </button>
-        </div>
+        </div> */}
         {/* <!-- Input --> */}
       </div>
       {/* End .row */}

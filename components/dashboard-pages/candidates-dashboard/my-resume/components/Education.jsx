@@ -1,69 +1,132 @@
+"use client"
+
+import { api } from "@/data/api";
+
+import { useEffect, useState } from "react";
+import EducationFormModal from "./EducationModelForm";
+import Wrapper from "@/layout/Wrapper";
+
 const Education = () => {
+
+  const [data, setData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleShow = () => {
+    setIsModalOpen(!isModalOpen); // Open the modal when the button is clicked
+  }
+
+  const userString = localStorage.getItem('user');
+  let jw='';
+  if (userString) {
+    const user = JSON.parse(userString);
+    jw = user.jwt;
+  } else {
+    console.error("User data not found");
+  }
+
+  const getJobs = async () => {
+    try {
+      const info1 = localStorage.getItem('info');
+      const parsedInfo = JSON.parse(info1);
+      const id = parsedInfo.jsId;   
+      const apiUrl1 = api + "jobseeker/education/get/" +id;
+
+      const response = await fetch(apiUrl1, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jw}`,
+          },
+      });
+
+      if (response.ok) {
+          const responseData = await response.json();
+          console.log(responseData)
+          setData(responseData);
+      } else {
+          console.log("Error fetching data:");
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  useEffect(() => {
+    getJobs();
+  },[])
+
+
+
+  const handleClick1 = async (e,id) => {
+    // e.preventDefault();
+    try {
+      const info1 = localStorage.getItem('info');
+      const parsedInfo = JSON.parse(info1);
+      const id1 = parsedInfo.companyId;
+      const apiUrl1 = api + "jobseeker/education/delete/" + id;
+
+      const response = await fetch(apiUrl1, {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jw}`,
+          },
+      });
+
+      if (response.ok) {
+          const responseData = await response.json();
+          
+      } else {
+          console.log("Error fetching data:");
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+ 
+
+
   return (
     <div className="resume-outer">
       <div className="upper-title">
         <h4>Education</h4>
-        <button className="add-info-btn">
+        <button className="add-info-btn" onClick={(e) => {handleShow()}}>
           <span className="icon flaticon-plus"></span> Add Education
         </button>
       </div>
-      {/* <!-- Resume BLock --> */}
-      <div className="resume-block">
-        <div className="inner">
-          <span className="name">M</span>
-          <div className="title-box">
-            <div className="info-box">
-              <h3>Bachlors in Fine Arts</h3>
-              <span>Modern College</span>
-            </div>
-            <div className="edit-box">
-              <span className="year">2012 - 2014</span>
-              <div className="edit-btns">
-                <button>
-                  <span className="la la-pencil"></span>
-                </button>
-                <button>
-                  <span className="la la-trash"></span>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a
-            ipsum tellus. Interdum et malesuada fames ac ante
-            <br /> ipsum primis in faucibus.
-          </div>
-        </div>
-      </div>
+      
+      {isModalOpen && (
+        <Wrapper>
+          <EducationFormModal />
+        </Wrapper>
+      )}
 
-      {/* <!-- Resume BLock --> */}
-      <div className="resume-block">
-        <div className="inner">
-          <span className="name">H</span>
-          <div className="title-box">
-            <div className="info-box">
-              <h3>Computer Science</h3>
-              <span>Harvard University</span>
-            </div>
-            <div className="edit-box">
-              <span className="year">2008 - 2012</span>
-              <div className="edit-btns">
-                <button>
-                  <span className="la la-pencil"></span>
-                </button>
-                <button>
-                  <span className="la la-trash"></span>
-                </button>
+      {data.map((education, index) => (
+        <div className="resume-block" key={index}>
+          <div className="inner">
+            <span className="name">{education.course}</span>
+            <div className="title-box">
+              <div className="info-box">
+                <h3>{education.course}</h3>
+                <span>{education.organization}</span>
+              </div>
+              <div className="edit-box">
+                <span className="year">{education.startYear} - {education.endYear}</span>
+                <div className="edit-btns">
+                  <button>
+                    <span className="la la-pencil"></span>
+                  </button>
+                  <button onClick={(e) => {handleClick1(e,candidate.eduId)}}>
+                    <span className="la la-trash"></span>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a
-            ipsum tellus. Interdum et malesuada fames ac ante
-            <br /> ipsum primis in faucibus.
+            <div className="text">{education.description}</div>
           </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 };

@@ -1,65 +1,62 @@
+
 'use client'
 
-import Image from "next/legacy/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import employerMenuData from "../../data/employerMenuData";
-import HeaderNavContent from "./EmployeerHeaderContent";
-import { isActiveLink } from "../../utils/linkActiveChecker";
+import HeaderNavContent from "./HeaderNavContent";
+import Image from "next/legacy/image";
+import { isActiveLink } from "@/utils/linkActiveChecker";
 import { usePathname } from "next/navigation";
+import employerMenuData from "@/data/employerMenuData";
 
+const DefaulHeader4 = () => {
+  const [navbar, setNavbar] = useState(false);
 
+  const user = localStorage.getItem("user");
 
-const DashboardHeader = () => {
-    const [navbar, setNavbar] = useState(false);
+  const changeBackground = () => {
+    if (window.scrollY >= 10) {
+      setNavbar(true);
+    } else {
+      setNavbar(false);
+    }
+  };
 
+  useEffect(() => {
+    window.addEventListener("scroll", changeBackground);
+  }, []);
 
-    const changeBackground = () => {
-        if (window.scrollY >= 10) {
-            setNavbar(true);
-        } else {
-            setNavbar(false);
-        }
-    };
+  return (
+    // <!-- Main Header-->
+    <header
+      className={`main-header  ${
+        navbar ? "fixed-header animated slideInDown" : ""
+      }`}
+    >
+      {/* <!-- Main box --> */}
+      <div className="main-box">
+        {/* <!--Nav Outer --> */}
+        <div className="nav-outer">
+          <div className="logo-box">
+            <div className="logo">
+              <Link href="/">
+                <Image
+                  width={154}
+                  height={50}
+                  src="/images/logo4.jpg"
+                  alt="brand"
+                />
+              </Link>
+            </div>
+          </div>
+          {/* End .logo-box */}
 
-    useEffect(() => {
-        window.addEventListener("scroll", changeBackground);
-    }, []);
+          <HeaderNavContent />
+          {/* <!-- Main Menu End--> */}
+        </div>
+        {/* End .nav-outer */}
 
-    return (
-        // <!-- Main Header-->
-        <header
-            className={`main-header header-shaddow  ${
-                navbar ? "fixed-header " : ""
-            }`}
-        >
-            <div className="container-fluid">
-                {/* <!-- Main box --> */}
-                <div className="main-box">
-                    {/* <!--Nav Outer --> */}
-                    <div className="nav-outer">
-                        <div className="logo-box">
-                            <div className="logo">
-                                <Link href="/">
-                                    <Image
-                                        alt="brand"
-                                        src="/images/logo4.jpg"
-                                        width={154}
-                                        height={50}
-                                        priority
-                                    />
-                                </Link>
-                            </div>
-                        </div>
-                        {/* End .logo-box */}
-
-                        {/* <HeaderNavContent /> */}
-                        < HeaderNavContent/>
-                        {/* <!-- Main Menu End--> */}
-                    </div>
-                    {/* End .nav-outer */}
-
-                    <div className="outer-box">
+        <div className="outer-box">
                         
                         {/* End notification-icon */}
 
@@ -106,11 +103,11 @@ const DashboardHeader = () => {
                         </div>
                         {/* End dropdown */}
                     </div>
-                    {/* End outer-box */}
-                </div>
-            </div>
-        </header>
-    );
+        
+
+      </div>
+    </header>
+  );
 };
 
-export default DashboardHeader;
+export default DefaulHeader4;

@@ -1,23 +1,94 @@
+"use client"
+
 import Link from "next/link.js";
 import jobs from "../../../../../data/job-featured.js";
 import Image from "next/image.js";
+import { useEffect, useState } from "react";
+import { api } from "@/data/api.js";
 
 const JobFavouriteTable = () => {
+
+
+  const [data, setData] = useState([]);
+
+  const userString = localStorage.getItem('user');
+  let jw='';
+  if (userString) {
+    const user = JSON.parse(userString);
+    jw = user.jwt;
+  } else {
+    console.error("User data not found");
+  }
+
+  const getJobs = async () => {
+    try {
+      const info1 = localStorage.getItem('info');
+      const parsedInfo = JSON.parse(info1);
+      const id = parsedInfo.jsId;   
+      const apiUrl1 = api + "jobseeker/" +id + "/get/shortlisted-jobs";
+
+      const response = await fetch(apiUrl1, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jw}`,
+          },
+      });
+
+      if (response.ok) {
+          const responseData = await response.json();
+          console.log(responseData)
+          setData(responseData);
+      } else {
+          console.log("Error fetching data:");
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  useEffect(() => {
+    getJobs();
+  },[])
+
+  const handleClick = (e,id) => {
+    e.preventDefault();
+    window.location.href = `/job-single-v1/${id}`;
+
+  }
+  
+  const handleClick1 = async (e,id) => {
+    // e.preventDefault();
+    try {
+      const info1 = localStorage.getItem('info');
+      const parsedInfo = JSON.parse(info1);
+      const id1 = parsedInfo.companyId;
+      const apiUrl1 = api + "company/delete/job/" + id + "/" + id1;
+
+      const response = await fetch(apiUrl1, {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jw}`,
+          },
+      });
+
+      if (response.ok) {
+          const responseData = await response.json();
+          
+      } else {
+          console.log("Error fetching data:");
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
   return (
     <div className="tabs-box">
       <div className="widget-title">
         <h4>My Favorite Jobs</h4>
 
-        <div className="chosen-outer">
-          {/* <!--Tabs Box--> */}
-          <select className="chosen-single form-select">
-            <option>Last 6 Months</option>
-            <option>Last 12 Months</option>
-            <option>Last 16 Months</option>
-            <option>Last 24 Months</option>
-            <option>Last 5 year</option>
-          </select>
-        </div>
       </div>
       {/* End filter top bar */}
 
@@ -36,8 +107,8 @@ const JobFavouriteTable = () => {
               </thead>
 
               <tbody>
-                {jobs.slice(8, 12).map((item) => (
-                  <tr key={item.id}>
+              {data.map((item) => (
+                  <tr key={item.jobId}>
                     <td>
                       {/* <!-- Job Block --> */}
                       <div className="job-block">
@@ -47,7 +118,7 @@ const JobFavouriteTable = () => {
                               <Image
                                 width={48}
                                 height={48}
-                                src={item.logo}
+                                src="/images/clients/1-2.png"
                                 alt="logo"
                               />
                             </span>
@@ -76,12 +147,12 @@ const JobFavouriteTable = () => {
                       <div className="option-box">
                         <ul className="option-list">
                           <li>
-                            <button data-text="View Aplication">
+                            <button data-text="View Job" onClick={(e) => {handleClick(e,item.jobId)}}>
                               <span className="la la-eye"></span>
                             </button>
                           </li>
                           <li>
-                            <button data-text="Delete Aplication">
+                            <button data-text="Remove Job">
                               <span className="la la-trash"></span>
                             </button>
                           </li>

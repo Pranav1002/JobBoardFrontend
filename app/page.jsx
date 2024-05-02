@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import Wrapper from "@/layout/Wrapper";
 import Home from "@/components/home-3";
+import EducationFormModal from "@/components/dashboard-pages/candidates-dashboard/my-resume/components/EducationModelForm";
 
 // Main Page component
 export default function Page() {
@@ -24,7 +25,7 @@ export default function Page() {
     // Redirect to the appropriate dashboard URL after login
     if (user) {
       const roleId = user.user.authorities[0].roleId;
-      const dashboardURL = roleId === 1 ? "/candidates-dashboard/dashboard" : "/employers-dashboard/dashboard";
+      const dashboardURL = roleId === 2 ? "/candidates-dashboard/dashboard" : "/employers-dashboard/dashboard";
       router.replace(dashboardURL);
     }
   }, [user, router]);
@@ -32,6 +33,14 @@ export default function Page() {
   // Render loading state or redirect logic
   if (!user) {
     return <Wrapper><Home /></Wrapper>;
+  }
+
+  if (router.pathname === "/education-form") {
+    return (
+      <Wrapper>
+        <EducationFormModal />
+      </Wrapper>
+    );
   }
 
   // Dynamically import dashboard components only when user is present
@@ -45,8 +54,8 @@ export default function Page() {
 
   return (
     <Wrapper>
-      {user.user.authorities[0].roleId === 1 && <DynamicIndex />}
-      {user.user.authorities[0].roleId === 2 && <DynamicIndex2 />}
+      {user.user.authorities[0].roleId === 2 && <DynamicIndex />}
+      {user.user.authorities[0].roleId === 3 && <DynamicIndex2 />}
     </Wrapper>
   );
 }

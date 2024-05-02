@@ -25,6 +25,7 @@ import {
   clearJobTypeToggle,
 } from "../../../features/job/jobSlice";
 import Image from "next/legacy/image";
+// import jobs from "@/data/jobs";
 
 const FilterJobBox = () => {
   const { jobList, jobSort } = useSelector((state) => state.filter);
@@ -300,7 +301,7 @@ const FilterJobBox = () => {
       <div className="row">{content}</div>
       {/* End .row with jobs */}
 
-      <Pagination />
+      {/* <Pagination /> */}
       {/* <!-- End Pagination --> */}
     </div>
   );

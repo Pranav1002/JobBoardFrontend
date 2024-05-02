@@ -2,10 +2,6 @@ import dynamic from "next/dynamic";
 import Image from "next/legacy/image";
 import Link from "next/link";
 
-export const metadata = {
-  title: "Page Not Found || Superio - Job Borad React NextJS Template",
-  description: "Superio - Job Borad React NextJS Template",
-};
 
 const index = () => {
   return (

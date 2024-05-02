@@ -1,3 +1,5 @@
+"use client"
+
 import FooterDefault from "../../../components/footer/common-footer";
 import Breadcrumb from "../../common/Breadcrumb";
 import LoginPopup from "../../common/form/login/LoginPopup";
@@ -5,8 +7,12 @@ import DefaulHeader2 from "../../header/DefaulHeader2";
 import MobileMenu from "../../header/MobileMenu";
 import FilterTopBox from "./FilterTopBox";
 import FilterSidebar from "./FilterSidebar";
+import DefaulHeader1 from "@/components/header/HeaderNavContent1";
+import DefaulHeader from "@/components/header/DefaulHeader";
 
 const index = () => {
+
+  const user = localStorage.getItem('user');
   return (
     <>
       {/* <!-- Header Span --> */}
@@ -15,7 +21,8 @@ const index = () => {
       <LoginPopup />
       {/* End Login Popup Modal */}
 
-      <DefaulHeader2 />
+      {user && <DefaulHeader1/>}
+      {!user && <DefaulHeader/>}
       {/* End Header with upload cv btn */}
 
       <MobileMenu />

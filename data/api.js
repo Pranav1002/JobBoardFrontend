@@ -1,1 +1,1 @@
-export const api = "http://localhost:8181/api/v1/"
+export const api = "https://jobboardbackend-production-ff10.up.railway.app/api/v1/"

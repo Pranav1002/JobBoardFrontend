@@ -7,7 +7,7 @@ const WidgetContentBox = () => {
         <Applicants />
       </div>
       {/* <!-- Pagination --> */}
-      <nav className="ls-pagination mb-5">
+      {/* <nav className="ls-pagination mb-5">
         <ul>
           <li className="prev">
             <a href="#">
@@ -31,7 +31,7 @@ const WidgetContentBox = () => {
             </a>
           </li>
         </ul>
-      </nav>
+      </nav> */}
     </div>
   );
 };
