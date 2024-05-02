@@ -1,3 +1,5 @@
+"use client"
+
 import MobileMenu from "../../../header/MobileMenu";
 import LoginPopup from "../../../common/form/login/LoginPopup";
 import DashboardCandidatesSidebar from "../../../header/DashboardCandidatesSidebar";
@@ -9,8 +11,63 @@ import CopyrightFooter from "../../CopyrightFooter";
 import JobApplied from "./components/JobApplied";
 import DashboardCandidatesHeader from "../../../header/DashboardCandidatesHeader";
 import MenuToggler from "../../MenuToggler";
+import { api } from "@/data/api";
+import { useEffect } from "react";
 
 const Index = () => {
+
+  let id = 0;
+    let jw ='';
+
+    const userString = localStorage.getItem('user');
+
+            if (userString) {
+                const user = JSON.parse(userString);
+                id = user.user.userId;
+                jw = user.jwt;
+
+            } else {
+                console.error("User data not found");
+            }
+
+  useEffect(() => {
+    const getData = async () => {
+        try{
+            const user = JSON.parse(userString);
+            const id = user.jsId;
+            const apiUrl1 = api+"jobseeker/get/" + id;
+            
+            const response = await fetch(apiUrl1, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jw}`,
+                },
+               
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                if (typeof window !== 'undefined') {
+                  localStorage.setItem('info', JSON.stringify(data));
+              }
+              localStorage.setItem('info', JSON.stringify(data));
+                
+
+            } else {
+               console.log("Error fetching data:")
+            }
+
+        }
+        catch(error){
+            console.error('Error:', error);
+        }
+    }
+    
+    getData();
+},[]);
+
   return (
     <div className="page-wrapper dashboard">
       <span className="header-span"></span>

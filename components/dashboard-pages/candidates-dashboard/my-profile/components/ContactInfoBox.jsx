@@ -56,7 +56,7 @@ const ContactInfoBox = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${jw}`,
                 },
-                body: JSON.stringify({ country, city}),
+                body: JSON.stringify({ ...parsedInfo,country, city}),
             });
 
             if (response.ok) {

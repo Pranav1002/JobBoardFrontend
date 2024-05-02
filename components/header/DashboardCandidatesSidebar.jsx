@@ -140,7 +140,7 @@ const handleDelete = async () => {
     ></button>
   </div>
   <div className="toast-body">
-    Job saved successfully.
+    Logged out successfully.
   </div>
 </div>
 

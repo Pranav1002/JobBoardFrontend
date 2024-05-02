@@ -145,9 +145,8 @@ const FormInfoBox = () => {
     useEffect(() => {
         const getData = async () => {
             try{
-                const info1 = localStorage.getItem('info');
-                const parsedInfo = JSON.parse(info1);
-                const id = parsedInfo.companyId;
+                const user = JSON.parse(userString);
+                const id = user.companyId;
                 const apiUrl1 = api+"company/get/" + id;
                 
                 const response = await fetch(apiUrl1, {
@@ -161,6 +160,11 @@ const FormInfoBox = () => {
     
                 if (response.ok) {
                     const data = await response.json();
+
+                    if (typeof window !== 'undefined') {
+                        localStorage.setItem('info', JSON.stringify(data));
+                    }
+                    localStorage.setItem('info', JSON.stringify(data));
                     
                     setInformation({
                         email: data.email,

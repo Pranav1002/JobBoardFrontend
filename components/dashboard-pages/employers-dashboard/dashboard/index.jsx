@@ -1,3 +1,5 @@
+"use client"
+
 import MobileMenu from "../../../header/MobileMenu";
 import DashboardHeader from "../../../header/DashboardHeader";
 import LoginPopup from "../../../common/form/login/LoginPopup";
@@ -9,8 +11,64 @@ import Notification from "./components/Notification";
 import Applicants from "./components/Applicants";
 import CopyrightFooter from "../../CopyrightFooter";
 import MenuToggler from "../../MenuToggler";
+import { useEffect } from "react";
+import { api } from "@/data/api";
+
 
 const Index = () => {
+
+  let id = 0;
+    let jw ='';
+
+    const userString = localStorage.getItem('user');
+
+            if (userString) {
+                const user = JSON.parse(userString);
+                id = user.user.userId;
+                jw = user.jwt;
+
+            } else {
+                console.error("User data not found");
+            }
+
+  useEffect(() => {
+    const getData = async () => {
+        try{
+            const user = JSON.parse(userString);
+            const id = user.companyId;
+            const apiUrl1 = api+"company/get/" + id;
+            
+            const response = await fetch(apiUrl1, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jw}`,
+                },
+               
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                if (typeof window !== 'undefined') {
+                  localStorage.setItem('info', JSON.stringify(data));
+              }
+              localStorage.setItem('info', JSON.stringify(data));
+                
+
+            } else {
+               console.log("Error fetching data:")
+            }
+
+        }
+        catch(error){
+            console.error('Error:', error);
+        }
+    }
+    
+    getData();
+},[]);    
+
   return (
     <div className="page-wrapper dashboard">
       <span className="header-span"></span>

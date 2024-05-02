@@ -16,6 +16,75 @@ const [password,setPassword] = useState('');
 const [link,setLink] = useState('');
 const [rem,setRem] = useState(false);
 
+  const storeInfo = async (id) => {
+    try{
+      const apiUrl1 = api+"jobseeker/get/" + id;
+      
+      const response = await fetch(apiUrl1, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jw}`,
+          },
+         
+      });
+
+      if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('info', JSON.stringify(data));
+        }
+        localStorage.setItem('info', JSON.stringify(data));
+    
+          
+
+      } else {
+         console.log("Error fetching data:")
+      }
+
+  }
+  
+  catch(error){
+      console.error('Error:', error);
+  }
+  }
+
+  const storeInfo1 = async (id) => {
+    try{
+      const apiUrl1 = api+"company/get/" + id;
+      
+      const response = await fetch(apiUrl1, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jw}`,
+          },
+         
+      });
+
+      if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('info', JSON.stringify(data));
+        }
+        localStorage.setItem('info', JSON.stringify(data));
+    
+          
+
+      } else {
+         console.log("Error fetching data:")
+      }
+
+  }
+  
+  catch(error){
+      console.error('Error:', error);
+  }
+  }
 
 const handleLogin = async (e) => {
   e.preventDefault();
@@ -41,6 +110,12 @@ const handleLogin = async (e) => {
       }
       localStorage.setItem('user', JSON.stringify(data));
 
+      if(data.companyId){
+        storeInfo1(data.companyId)
+      }
+      else{
+        storeInfo(data.jsId)
+      }
       
 
     }

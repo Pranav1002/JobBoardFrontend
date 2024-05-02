@@ -52,7 +52,7 @@ const SocialNetworkBox = () => {
           'Authorization': `Bearer ${jw}`,
         },
         
-        body: JSON.stringify({ jobSeekerSocialNetwork }),
+        body: JSON.stringify({ ...parsedInfo,jobSeekerSocialNetwork }),
       });
       console.log(response)
       if (response.ok) {

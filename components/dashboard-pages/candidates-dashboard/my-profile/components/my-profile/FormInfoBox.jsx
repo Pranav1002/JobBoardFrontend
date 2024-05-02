@@ -170,9 +170,8 @@ const handleChange2 = (selectedOption) => {
 useEffect(() => {
   const getData = async () => {
       try{
-          const info1 = localStorage.getItem('info');
-          const parsedInfo = JSON.parse(info1);
-          // const id = parsedInfo.jsId;
+        const user = JSON.parse(userString);
+        const id = user.jsId;
           const apiUrl1 = api+"jobseeker/get/" + id;
           
           const response = await fetch(apiUrl1, {
