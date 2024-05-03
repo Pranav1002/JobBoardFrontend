@@ -6,7 +6,9 @@ import { useState } from "react";
 const FormContent2 = (props) => {
   const [username , setUsername] = useState('');
   const [password,setPassword] = useState('');
-  const [role, setRole] = useState(props.type.value == "js" ? ('JOB_SEEKER') :  ('COMPANY') );
+  const [role, setRole] = useState(props.type == "js" ? ('JOB_SEEKER') :  ('COMPANY') );
+
+  
 
   const handleRegister = async (e) => {
     e.preventDefault();

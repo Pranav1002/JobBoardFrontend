@@ -55,9 +55,7 @@ const Register = () => {
             LogIn
           </Link>
         </div>
-        <div className="divider">
-          <span>or</span>
-        </div>
+       
         {/* <LoginWithSocial /> */}
       </div>
       {/* End bottom-box LoginWithSocial */}
