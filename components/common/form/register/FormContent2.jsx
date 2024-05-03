@@ -1,15 +1,31 @@
+"use client"
+
+import { api } from "@/data/api";
 import { useState } from "react";
 
-const FormContent2 = () => {
+const FormContent2 = (props) => {
   const [username , setUsername] = useState('');
   const [password,setPassword] = useState('');
-  const [role, setRole] = useState('JOB_SEEKER');
+  const [role, setRole] = useState(props.type.value == "js" ? ('JOB_SEEKER') :  ('COMPANY') );
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    
     try {
-      const apiUrl = 'http://localhost:8181/api/v1/auth/register'; 
+
+      const apiUrl = api+ 'auth/register';
+      
+      if(props.type.value == "js"){
+        setRole('JOB_SEEKER');
+        console.log(role);
+      }
+      else{
+        setRole('COMPANY');
+        console.log(role);
+      }
+
   
+      
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -21,6 +37,7 @@ const FormContent2 = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('Register successful:', data);
+        window.location.href='/';
         
         
       } else {
