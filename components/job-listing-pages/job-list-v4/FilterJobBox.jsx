@@ -357,57 +357,69 @@ const FilterJobBox = () => {
       </div>
       {/* <!-- ls Switcher --> */}
       <div className="row">
-      {jobData.map(item => (
-        
-  <div className="job-block col-lg-6 col-md-12 col-sm-12" key={item.id}>
-    <div className="inner-box">
-      <div className="content">
-        <span className="company-logo">
-          <Image width={50} height={49} src={item.company.image.filePath} alt="item brand" />
-        </span>
-        <h4>
-          <Link href={`/job-single-v1/${item.jobId}`}>{item.jobTitle}</Link>
-        </h4>
+      <div className="row">
+  {jobData
+    .filter(keywordFilter)
+    .filter(locationFilter)
+    .filter(destinationFilter)
+    .filter(categoryFilter)
+    .filter(jobTypeFilter)
+    .filter(datePostedFilter)
+    .filter(experienceFilter)
+    .filter(salaryFilter)
+    .filter(tagFilter)
+    .sort(sortFilter)
+    .map(item => (
+      <div className="job-block col-lg-6 col-md-12 col-sm-12" key={item.id}>
+        <div className="inner-box">
+          <div className="content">
+            <span className="company-logo">
+              <Image width={50} height={49} src={item.company.image.filePath} alt="item brand" />
+            </span>
+            <h4>
+              <Link href={`/job-single-v1/${item.jobId}`}>{item.jobTitle}</Link>
+            </h4>
 
-        <ul className="job-info">
-          <li>
-            <span className="icon flaticon-briefcase"></span>
-            {item.company.name}
-          </li>
-          {/* company info */}
-          <li>
-            <span className="icon flaticon-map-locator"></span>
-            {item.country}
-          </li>
-          {/* location info */}
-          <li>
-            <span className="icon flaticon-clock-3"></span> ! hour ago
-          </li>
-          {/* time info */}
-          <li>
-            <span className="icon flaticon-money"></span> {item.salary}
-          </li>
-          {/* salary info */}
-        </ul>
-        {/* End .job-info */}
+            <ul className="job-info">
+              <li>
+                <span className="icon flaticon-briefcase"></span>
+                {item.company.name}
+              </li>
+              {/* company info */}
+              <li>
+                <span className="icon flaticon-map-locator"></span>
+                {item.country}
+              </li>
+              {/* location info */}
+              <li>
+                <span className="icon flaticon-clock-3"></span> ! hour ago
+              </li>
+              {/* time info */}
+              <li>
+                <span className="icon flaticon-money"></span> {item.salary}
+              </li>
+              {/* salary info */}
+            </ul>
+            {/* End .job-info */}
 
-        <ul className="job-other-info">
-          {jobs[0].jobType?.map((val, i) => (
-            <li key={i} className={`${val.styleClass}`}>
-              {val.type}
-            </li>
-          ))}
-        </ul>
-        {/* End .job-other-info */}
+            <ul className="job-other-info">
+              {jobs[0].jobType?.map((val, i) => (
+                <li key={i} className={`${val.styleClass}`}>
+                  {val.type}
+                </li>
+              ))}
+            </ul>
+            {/* End .job-other-info */}
 
-        <button className="bookmark-btn">
-          <span className="flaticon-bookmark"></span>
-        </button>
+            <button className="bookmark-btn">
+              <span className="flaticon-bookmark"></span>
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  
-))}
+    ))}
+</div>
+
 {content}
 </div>
 

@@ -26,7 +26,7 @@ import {
 import Image from "next/legacy/image";
 import { useEffect, useState } from "react";
 import { api } from "@/data/api";
-import { iterate } from "localforage";
+// import { iterate } from "localforage";
 
 const FilterTopBox = () => {
   const {
