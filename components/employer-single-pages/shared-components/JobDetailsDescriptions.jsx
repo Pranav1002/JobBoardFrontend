@@ -1,9 +1,13 @@
+
 import GalleryBox from "./GalleryBox";
 
-const JobDetailsDescriptions = () => {
+const JobDetailsDescriptions = ({description}) => {
   return (
     <div className="job-detail">
       <h4>About Company</h4>
+
+      {description}
+      <br/><br/>
       <p>
         Moody’s Corporation, often referred to as Moody’s, is an American
         business and financial services company. It is the holding company for

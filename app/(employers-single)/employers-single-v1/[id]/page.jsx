@@ -25,14 +25,7 @@ const EmployersSingleV1 = ({ params }) => {
   const jw=user.jwt;
 
   
-  const [jobData,setJobData] = useState({
-    jobTitle: '',
-    country: '',
-    salary:'',
-    company:'',
-    image: '',
-    phoneNumber: ''
-  })
+  const [jobData,setJobData] = useState({})
 
   const id1=user.user.userId;
   
@@ -47,7 +40,7 @@ const EmployersSingleV1 = ({ params }) => {
         let apiUrl1 = ''
         if(user.user.authorities[0].roleId === 2)
         {
-          apiUrl1 = api + "jobseeker/job/" + id;
+          apiUrl1 = api + "jobseeker/get/company/" + id;
         }else{
          apiUrl1 = api + "company/get/" + id;
         }
@@ -63,10 +56,7 @@ const EmployersSingleV1 = ({ params }) => {
         if (response.ok) {
             const responseData = await response.json();
             console.log(responseData)
-            const {jobTitle,country, salary, phoneNumber} = responseData;
-            const company = responseData.company.name;
-            const image = responseData.company.image.filePath;
-            setJobData({jobTitle,country,salary, company,image, phoneNumber});
+            setJobData(responseData);
         } else {
             console.log("Error fetching data:");
         }
@@ -118,12 +108,17 @@ const EmployersSingleV1 = ({ params }) => {
               <div className="inner-box">
                 <div className="content">
                   <span className="company-logo">
+                  {jobData.companyImage ? (
                     <Image
-                      width={100}
-                      height={100}
-                      src={employer?.img}
-                      alt="logo"
+                      width={90}
+                      height={90}
+                      src={jobData.companyImage.filePath}
+                      // src="/logo3.svg"
+                      alt="Candidate Image"
                     />
+                  ) : (
+                    <div>No Image Available</div>
+                  )}
                   </span>
                   <h4>{jobData.name}</h4>
 
@@ -131,6 +126,7 @@ const EmployersSingleV1 = ({ params }) => {
                     <li>
                       <span className="icon flaticon-map-locator"></span>
                       {jobData.country}
+                      {!jobData.country && "Australia"}
                     </li>
                     {/* compnay info */}
                     <li>
@@ -151,9 +147,9 @@ const EmployersSingleV1 = ({ params }) => {
                   </ul>
                   {/* End .job-info */}
 
-                  <ul className="job-other-info">
+                  {/* <ul className="job-other-info">
                     <li className="time">Open Jobs – {employer.jobNumber}</li>
-                  </ul>
+                  </ul> */}
                   {/* End .job-other-info */}
                 </div>
                 {/* End .content */}
@@ -182,7 +178,8 @@ const EmployersSingleV1 = ({ params }) => {
             <div className="row">
               <div className="content-column col-lg-8 col-md-12 col-sm-12">
                 {/*  job-detail */}
-                <JobDetailsDescriptions />
+                
+                <JobDetailsDescriptions description={jobData.description} />
                 {/* End job-detail */}
 
                 {/* <!-- Related Jobs --> */}
@@ -213,16 +210,17 @@ const EmployersSingleV1 = ({ params }) => {
                           Company size: <span>501-1,000</span>
                         </li>
                         <li>
-                          Founded in: <span>2011</span>
+                          Founded in: <span>{jobData.establish}</span>
                         </li>
                         <li>
-                          Phone: <span>{employer?.phone}</span>
+                          Phone: <span>{jobData.phoneNumber}</span>
                         </li>
                         <li>
-                          Email: <span>{employer?.email}</span>
+                          Email: <span>{jobData.email}</span>
                         </li>
                         <li>
-                          Location: <span>{employer?.location}</span>
+                          Location: <span>{jobData.country}
+                      {!jobData.country && "Australia"}</span>
                         </li>
                         <li>
                           Social media:
@@ -237,7 +235,7 @@ const EmployersSingleV1 = ({ params }) => {
                           className="theme-btn btn-style-three"
                           style={{ textTransform: "lowercase" }}
                         >
-                          www.{employer?.name}.com
+                          {jobData.website}
                         </a>
                       </div>
                       {/* btn-box */}
