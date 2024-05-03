@@ -17,9 +17,9 @@ import DefaulHeader1 from "@/components/header/HeaderNavContent1";
 import DefaulHeader4 from "@/components/header/DefaultHeader4";
 import { useEffect, useState } from "react";
 import { api } from "@/data/api";
-import Education from "@/components/dashboard-pages/candidates-dashboard/my-resume/components/Education";
+import Education from "@/components/dashboard-pages/candidates-dashboard/my-resume/components/Education1";
 import Experience from "@/components/candidates-listing-pages/components/Experience";
-import Experiences from "@/components/dashboard-pages/candidates-dashboard/my-resume/components/Experiences";
+import Experiences from "@/components/dashboard-pages/candidates-dashboard/my-resume/components/Experience1";
 
 
 
@@ -161,12 +161,12 @@ const CandidateSingleDynamicV2 = ({ params }) => {
       <div className="row">
         
         {/* <!-- Input --> */}
-
+                        <br/><br/>
         <div className="form-group col-lg-12 col-md-12">
-          <Education />
+          <Education id={id}/>
           {/* <!-- Resume / Education --> */}
 
-          <Experiences />
+          <Experiences id={id} />
         </div>
 
       </div>
