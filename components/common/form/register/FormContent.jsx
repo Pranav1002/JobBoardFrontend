@@ -37,7 +37,7 @@ const FormContent2 = (props) => {
       if (response.ok) {
         const data = await response.json();
         console.log('Register successful:', data);
-        window.location.href='login';
+        window.location.href='/';
         
         
       } else {
