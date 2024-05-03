@@ -30,12 +30,12 @@ const Register2 = () => {
         {/* End .form-group */}
 
         <TabPanel>
-          <FormContent2 />
+          <FormContent2 type="js" />
         </TabPanel>
         {/* End cadidates Form */}
 
         <TabPanel>
-          <FormContent2 />
+          <FormContent2 type="em" />
         </TabPanel>
         {/* End Employer Form */}
       </Tabs>
