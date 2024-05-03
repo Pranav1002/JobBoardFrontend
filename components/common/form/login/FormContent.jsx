@@ -18,6 +18,10 @@ const [rem,setRem] = useState(false);
 
   const storeInfo = async (id) => {
     try{
+      const info1 = localStorage.getItem('user');
+      const parsedInfo = JSON.parse(info1);
+      const jw = parsedInfo.jwt;
+
       const apiUrl1 = api+"jobseeker/get/" + id;
       
       const response = await fetch(apiUrl1, {
@@ -52,7 +56,12 @@ const [rem,setRem] = useState(false);
   }
 
   const storeInfo1 = async (id) => {
+
     try{
+      const info1 = localStorage.getItem('user');
+      const parsedInfo = JSON.parse(info1);
+      const jw = parsedInfo.jwt;
+
       const apiUrl1 = api+"company/get/" + id;
       
       const response = await fetch(apiUrl1, {
